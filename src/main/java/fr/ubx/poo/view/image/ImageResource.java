@@ -23,6 +23,7 @@ public enum ImageResource {
     DIGIT_8 ("banner_8.jpg"),
     DIGIT_9 ("banner_9.jpg"),
     DOORNEXTCLOSED("door_closed.png"),
+    DOORNEXTOPENED("door_opened.png"),
     PLAYER_DOWN("player_down.png"),
     PLAYER_LEFT("player_left.png"),
     PLAYER_RIGHT("player_right.png"),

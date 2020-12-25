@@ -53,7 +53,10 @@ public class World {
     }
 
     public boolean isInside(Position position) {
-        return true; // to update
+        return (position.x >= 0 
+        && position.x < dimension.width 
+        && position.y >= 0 
+        && position.y < dimension.height); // to update
     }
 
     public boolean isEmpty(Position position) {

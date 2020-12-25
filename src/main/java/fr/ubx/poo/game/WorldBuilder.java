@@ -12,6 +12,7 @@ import fr.ubx.poo.model.decor.BombRangeDec;
 import fr.ubx.poo.model.decor.BombRangeInc;
 import fr.ubx.poo.model.decor.BombNumberDec;
 import fr.ubx.poo.model.decor.DoorNextClosed;
+import fr.ubx.poo.model.decor.DoorNextOpened;
 import fr.ubx.poo.model.decor.Monster;
 
 
@@ -61,6 +62,8 @@ public class WorldBuilder {
                 return new BombRangeDec();
             case DoorNextClosed:
                 return new DoorNextClosed();
+            case DoorNextOpened:
+                return new DoorNextOpened();
             case Monster:
                 return new Monster();
             default:
