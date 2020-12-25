@@ -18,7 +18,8 @@ public class Player extends GameObject implements Movable {
     private boolean moveRequested = false;
     private int lives = 3;
     private int key = 0;
-    private int bombVal = 0;
+    private int bombVal = 2;
+    private int bombRange = 1;
     private boolean winner;
 
     public Player(Game game, Position position) {
@@ -33,7 +34,9 @@ public class Player extends GameObject implements Movable {
     public int getBombsValue(){
         return bombVal;
     }
-
+    public int getBombsRange(){
+        return bombRange;
+    }
     public int getKey() {
         return key;
     }
@@ -62,8 +65,11 @@ public class Player extends GameObject implements Movable {
                 return false;
             }
             else if (object == "Key") key = key + 1;
+            else if (object == "BombRangeInc") bombRange = bombRange + 1;
+            else if (object == "BombRangeDec") bombRange = bombRange - 1;
             else if (object == "Heart") lives = lives + 1;
             else if (object == "BombNumberInc") bombVal = bombVal + 1;
+            else if (object == "BombNumberDec") bombVal = bombVal - 1;
             else if (object == "Princess") winner = true;
             else if (object == "Monster"){
                 lives = lives - 1;
