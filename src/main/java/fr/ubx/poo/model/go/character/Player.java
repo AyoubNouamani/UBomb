@@ -6,16 +6,14 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
-import javafx.scene.text.Text;
 
 public class Player extends GameObject implements Movable {
 
-    private final boolean alive = true;
+    private boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
     private int lives = 3;
@@ -51,9 +49,9 @@ public class Player extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         Decor v = game.getWorld().get(nextPos);
+        //detecte si c'est pas null (espace vide sans decor)
         if (v != null){
             String object = v.toString();
-            System.out.println(object);
             if (object == "Stone" 
             || object == "Tree" 
             || object == "Box"){
@@ -64,9 +62,10 @@ public class Player extends GameObject implements Movable {
             else if (object == "Princess") winner = true;
             else if (object == "Monster"){
                 lives = lives - 1;
-                //defaite en cas de 0 vie
+                minusLive();
             }
         }
+        //detecte si le perosnnage sort de la map
         return nextPos.inside(game.getWorld().dimension);
     }
 
@@ -90,6 +89,13 @@ public class Player extends GameObject implements Movable {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    //False si jouer a 0 vies
+    public void minusLive() {
+        if (lives == 0){
+            alive = false;
+        }
     }
 
 }

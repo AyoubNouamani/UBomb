@@ -20,6 +20,9 @@ public class Game {
     private final String worldPath;
     public int initPlayerLives;
     public int initPlayerKey;
+    public int initNumberBomb;
+    public int initRangeBomb;
+
 
     public Game(String worldPath) {
         world = new WorldStatic();
