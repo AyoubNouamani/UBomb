@@ -79,8 +79,8 @@ public class Player extends GameObject implements Movable {
             else if (object == "DoorNextClosed"){
                 if (key > 0){
                     key = key - 1;
-                    Decor next = processEntity("DoorNextOpened");
-                    game.getWorld().set(nextPos, next);
+                    //Decor next = processEntity("DoorNextOpened");
+                    //game.getWorld().set(nextPos, next);
                     System.out.println("Porte remplacé");
                 }
             }
