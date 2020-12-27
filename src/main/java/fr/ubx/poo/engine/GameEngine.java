@@ -140,6 +140,10 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
+        // on supprime tous les decors et on le re-initilize 
+        sprites.forEach(Sprite::remove); 
+        sprites.clear(); 
+        initialize(stage, game);
     }
 
     private void render() {

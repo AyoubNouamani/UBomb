@@ -41,7 +41,9 @@ public class Game {
     public int getInitPlayerLives() {
         return initPlayerLives;
     }
-
+    public int getinitNumberBomb() {
+        return initNumberBomb;
+    }
     public int getInitPlayerKey() {
         return initPlayerKey;
     }
@@ -52,6 +54,7 @@ public class Game {
             // load the configuration file
             prop.load(input);
             initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
+            initNumberBomb = Integer.parseInt(prop.getProperty("BombNumberInc", "3"));// pas fini
             initPlayerKey = Integer.parseInt(prop.getProperty("key", "0"));
         } catch (IOException ex) {
             System.err.println("Error loading configuration");

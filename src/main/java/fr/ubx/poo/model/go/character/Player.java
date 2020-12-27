@@ -5,13 +5,15 @@
 package fr.ubx.poo.model.go.character;
 
 import java.util.Collection;
-
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.DoorNextOpened;
+import fr.ubx.poo.model.decor.Key;
+import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -30,6 +32,7 @@ public class Player extends GameObject implements Movable {
         super(game, position);
         this.direction = Direction.S;
         this.lives = game.getInitPlayerLives();
+        // mettre initbomb
     }
 
     public int getLives() {
@@ -68,20 +71,22 @@ public class Player extends GameObject implements Movable {
             || object == "Box"){
                 return false;
             }
+            // on clear chaque objet quand on passe dessus ensuite il faut aller dans gameEngine
             else if (object == "Key") {
                 key = key + 1;
+                game.getWorld().clear(nextPos);
             }
-            else if (object == "BombRangeInc") bombRange = bombRange + 1;
-            else if (object == "BombRangeDec") bombRange = bombRange - 1;
-            else if (object == "Heart") lives = lives + 1;
-            else if (object == "BombNumberInc") bombVal = bombVal + 1;
-            else if (object == "BombNumberDec") bombVal = bombVal - 1;
+            else if (object == "BombRangeInc"){ bombRange = bombRange + 1;game.getWorld().clear(nextPos);}
+            else if (object == "BombRangeDec"){ bombRange = bombRange - 1;game.getWorld().clear(nextPos);}
+            else if (object == "Heart") {lives = lives + 1;game.getWorld().clear(nextPos);}
+            else if (object == "BombNumberInc"){ bombVal = bombVal + 1;game.getWorld().clear(nextPos);}
+            else if (object == "BombNumberDec"){ bombVal = bombVal - 1;game.getWorld().clear(nextPos);}
             else if (object == "DoorNextClosed"){
                 if (key > 0){
                     key = key - 1;
-                    Decor next = processEntity("DoorNextOpened");
-                    game.getWorld().set(nextPos, next);
-                    System.out.println("Porte remplacé");
+                   // Decor next = processEntity("DoorNextOpened");
+                    //game.getWorld().set(nextPos, next);
+                   // System.out.println("Porte remplacé");
                 }
             }
             else if (object == "Princess") winner = true;
