@@ -132,6 +132,11 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
 
+        // on supprime tous les decors et on le re-initilize 
+        sprites.forEach(Sprite::remove); 
+        sprites.clear(); 
+        initialize(stage, game);
+        //apres on regrde si le jouer a fini (gagné ou perdu)
         if (player.isAlive() == false) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);

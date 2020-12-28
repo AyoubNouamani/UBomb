@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
-    private final Map<Position, Decor> grid;
+    public final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
+    private boolean changed; // pour voir si le monde a changé
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -62,4 +63,7 @@ public class World {
     public boolean isEmpty(Position position) {
         return grid.get(position) == null;
     }
+    public boolean hasChanged(){
+        //if( values())
+        return changed;} // le getter
 }

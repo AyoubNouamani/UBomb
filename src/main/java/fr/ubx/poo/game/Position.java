@@ -6,6 +6,8 @@ package fr.ubx.poo.game;
 
 import java.util.Objects;
 
+import fr.ubx.poo.model.decor.Decor;
+
 public class Position {
     public final int x;
     public final int y;
@@ -41,4 +43,6 @@ public class Position {
     public boolean inside(Dimension d) {
         return x >= 0 && x < d.width && y >= 0 && y < d.height;
     }
+
+
 }
