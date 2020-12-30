@@ -7,20 +7,7 @@ package fr.ubx.poo.view.sprite;
 import static fr.ubx.poo.view.image.ImageResource.*;
 
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.model.decor.Box;
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Stone;
-import fr.ubx.poo.model.decor.Tree;
-import fr.ubx.poo.model.decor.Heart;
-import fr.ubx.poo.model.decor.Princess;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.BombNumberInc;
-import fr.ubx.poo.model.decor.BombNumberDec;
-import fr.ubx.poo.model.decor.BombRangeInc;
-import fr.ubx.poo.model.decor.BombRangeDec;
-import fr.ubx.poo.model.decor.DoorNextClosed;
-import fr.ubx.poo.model.decor.DoorNextOpened;
-import fr.ubx.poo.model.decor.Monster;
+import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
@@ -42,6 +29,14 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(KEY), position);
         if (decor instanceof Princess)
             return new SpriteDecor(layer, factory.get(PRINCESS), position);
+        if (decor instanceof Bomb1)
+            return new SpriteDecor(layer, factory.get(BOMB1), position);
+        if (decor instanceof Bomb2)
+            return new SpriteDecor(layer, factory.get(BOMB2), position);
+        if (decor instanceof Bomb3)
+            return new SpriteDecor(layer, factory.get(BOMB3), position);
+        if (decor instanceof Bomb4)
+            return new SpriteDecor(layer, factory.get(BOMB4), position);
         if (decor instanceof BombNumberInc)
             return new SpriteDecor(layer, factory.get(BOMBNUMBERINC), position);
         if (decor instanceof BombNumberDec)

@@ -10,11 +10,12 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
-public class Player extends GameObject implements Movable {
+public class Monster extends GameObject implements Movable {
 
     private final boolean alive = true;
     Direction direction;
@@ -25,7 +26,7 @@ public class Player extends GameObject implements Movable {
     private int bombRange = 1;
     private boolean winner;
 
-    public Player(Game game, Position position) {
+    public Monster(Game game, Position position) {
         super(game, position);
         this.direction = Direction.S;
         this.lives = game.getInitPlayerLives();
@@ -59,7 +60,7 @@ public class Player extends GameObject implements Movable {
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
         Position p = game.getPlayer().getPosition();
-        Decor bomb = new Bomb4();
+        Decor bomb = new BombNumberInc();
         game.getWorld().set(p, bomb);
     }
 
@@ -146,7 +147,7 @@ public class Player extends GameObject implements Movable {
 
     public void update(long now) {
         if (moveRequested) {
-            System.out.println(now);
+
             if (canMove(direction)) {
                 doMove(direction);
             }

@@ -106,6 +106,12 @@ public final class GameEngine {
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
         }
+        if (input.isBomb()){
+            player.requestBomb();
+        }
+        if (input.isKey()){
+            player.requestKey();
+        }
         input.clear();
     }
 

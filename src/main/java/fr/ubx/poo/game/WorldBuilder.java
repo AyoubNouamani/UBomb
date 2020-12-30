@@ -1,21 +1,6 @@
 package fr.ubx.poo.game;
 
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Stone;
-import fr.ubx.poo.model.decor.Tree;
-import fr.ubx.poo.model.decor.Box;
-import fr.ubx.poo.model.decor.Heart;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.Princess;
-import fr.ubx.poo.model.decor.BombNumberInc;
-import fr.ubx.poo.model.decor.BombRangeDec;
-import fr.ubx.poo.model.decor.BombRangeInc;
-import fr.ubx.poo.model.decor.BombNumberDec;
-import fr.ubx.poo.model.decor.DoorNextClosed;
-import fr.ubx.poo.model.decor.DoorNextOpened;
-import fr.ubx.poo.model.decor.Monster;
-
-
+import fr.ubx.poo.model.decor.*;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -52,6 +37,14 @@ public class WorldBuilder {
                 return new Key();
             case Princess:
                 return new Princess();
+            case Bomb1:
+                return new Bomb1();
+            case Bomb2:
+                return new Bomb2();
+            case Bomb3:
+                return new Bomb3();
+            case Bomb4:
+                return new Bomb4();
             case BombNumberInc:
                 return new BombNumberInc();
             case BombNumberDec:
