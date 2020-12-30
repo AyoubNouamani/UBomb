@@ -20,7 +20,7 @@ import fr.ubx.poo.model.decor.BombRangeInc;
 import fr.ubx.poo.model.decor.BombRangeDec;
 import fr.ubx.poo.model.decor.DoorNextClosed;
 import fr.ubx.poo.model.decor.DoorNextOpened;
-import fr.ubx.poo.model.decor.Monster;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
@@ -54,12 +54,15 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(DOORNEXTCLOSED), position);
         if (decor instanceof DoorNextOpened)
             return new SpriteDecor(layer, factory.get(DOORNEXTOPENED), position);
-        if (decor instanceof Monster)
-            return new SpriteDecor(layer, factory.get(MONSTER_DOWN), position);
+        //if (decor instanceof Monster)
+          //  return new SpriteDecor(layer, factory.get(MONSTER_DOWN), position);
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
     public static Sprite createPlayer(Pane layer, Player player) {
         return new SpritePlayer(layer, player);
+    }
+    public static Sprite createMonster(Pane layer, Monster monster) {
+        return new SpriteMonster(layer, monster);
     }
 }

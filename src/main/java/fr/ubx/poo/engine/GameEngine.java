@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -25,23 +26,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public final class GameEngine {
 
     private static AnimationTimer gameLoop;
+   
     private final String windowTitle;
     private final Game game;
     private final Player player;
+    private final Monster monster;
     private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
+    private Sprite spriteMonster;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
+        this.monster = game.getMonster();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -67,8 +73,9 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
-        game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
+        spriteMonster = SpriteFactory.createMonster(layer, monster);
 
     }
 
@@ -77,7 +84,9 @@ public final class GameEngine {
             public void handle(long now) {
                 // Check keyboard actions
                 processInput(now);
-
+             
+                processMonster(now*100000000);
+              
                 // Do actions
                 update(now);
 
@@ -88,15 +97,58 @@ public final class GameEngine {
         };
     }
 
+      
+     
+    
+    private void processMonster(long now) {
+        Direction mons = fr.ubx.poo.game.Direction.random();
+       // System.out.println("un move");
+	
+       
+        if (mons == Direction.W ){
+            monster.requestMove(Direction.W);
+        }
+        if (mons == Direction.E ){
+            monster.requestMove(Direction.E);
+        }
+        if (mons == Direction.S ){
+            monster.requestMove(Direction.S);
+        }
+        if (mons == Direction.N ){
+            monster.requestMove(Direction.N);
+        }
+        
+    }
+    
+ 
     private void processInput(long now) {
         if (input.isExit()) {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
         }
-        if (input.isMoveDown()) {
-            player.requestMove(Direction.S);
+        
+        /*if (input.isMoveDown()) {
+            monster.requestMove(Direction.S);
         }
+        
+        if (input.isMoveLeft()) {
+            monster.requestMove(Direction.W);
+        }
+        if (input.isMoveRight()) {
+            monster.requestMove(Direction.E);
+        }
+        if (input.isMoveUp()) {
+            monster.requestMove(Direction.N);
+        }
+    
+        }*/
+
+        if(input.isKey() && (fr.ubx.poo.model.go.character.Player.getKey()==1)){
+           System.out.println("ouvre porte");
+        }
+        
+
         if (input.isMoveLeft()) {
             player.requestMove(Direction.W);
         }
@@ -105,6 +157,9 @@ public final class GameEngine {
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
+        }
+        if (input.isMoveDown()) {
+            player.requestMove(Direction.S);
         }
         input.clear();
     }
@@ -124,6 +179,7 @@ public final class GameEngine {
         new AnimationTimer() {
             public void handle(long now) {
                 processInput(now);
+                processMonster(now);
             }
         }.start();
     }
@@ -131,11 +187,13 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
+        monster.update(now);
 
         // on supprime tous les decors et on le re-initilize 
         sprites.forEach(Sprite::remove); 
         sprites.clear(); 
         initialize(stage, game);
+        
         //apres on regrde si le jouer a fini (gagné ou perdu)
         if (player.isAlive() == false) {
             gameLoop.stop();
@@ -151,6 +209,7 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
+        spriteMonster.render();
     }
 
     public void start() {
