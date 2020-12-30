@@ -104,6 +104,7 @@ public class Player extends GameObject implements Movable {
                     game.getWorld().clear(nextPos);
                     System.out.println("Porte remplacé");
                 }
+                return false;
             }
             else if (object == "Princess") winner = true;
             else if (object == "Monster") lives = lives - 1;
