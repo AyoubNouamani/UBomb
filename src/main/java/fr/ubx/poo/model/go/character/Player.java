@@ -20,7 +20,7 @@ public class Player extends GameObject implements Movable {
     Direction direction;
     private boolean moveRequested = false;
     private int lives;
-    private int key;
+    private static int key;
     private int bombVal = 2;
     private int bombRange = 1;
     private boolean winner;
@@ -35,13 +35,16 @@ public class Player extends GameObject implements Movable {
     public int getLives() {
         return lives;
     }
-    public int getBombsValue(){
+
+    public int getBombsValue() {
         return bombVal;
     }
-    public int getBombsRange(){
+
+    public int getBombsRange() {
         return bombRange;
     }
-    public int getKey() {
+
+    public static int getKey() {
         return key;
     }
 
@@ -133,7 +136,6 @@ public class Player extends GameObject implements Movable {
                 // passer au niveau suivant
             }
             else if (object == "Princess") winner = true;
-            else if (object == "Monster") lives = lives - 1;
         }
         //detecte si le perosnnage sort de la map
         return nextPos.inside(game.getWorld().dimension);
