@@ -13,10 +13,14 @@ public final class ImageFactory {
     private final Image[] images;
 
     private final ImageResource[] directions = new ImageResource[]{
-            // Direction { N, E, S, W }
-            PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT,
+        // Direction { N, E, S, W }
+        PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT,
     };
     private final ImageResource[] directionsMonster = new ImageResource[]{
+        // Direction { N, E, S, W }
+        MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
+    };
+    private final ImageResource[] Bomb = new ImageResource[]{
         // Direction { N, E, S, W }
         MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };

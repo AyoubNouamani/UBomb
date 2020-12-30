@@ -117,6 +117,8 @@ public final class GameEngine {
 
     private void processBombs(){
         //chercher les bombs dans la map
+        int height = game.getWorld().dimension.height;
+        int width = game.getWorld().dimension.width;
         
     }
     
@@ -174,7 +176,7 @@ public final class GameEngine {
         player.update(now);
         monster.update(now);
 
-        int foo = Character.getNumericValue(String.valueOf(now).charAt(4));
+        int foo = Character.getNumericValue(String.valueOf(now).charAt(1));
         if (foo != monster.time){
             // Actualize monster 
             processMonster();

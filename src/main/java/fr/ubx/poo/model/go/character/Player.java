@@ -61,16 +61,20 @@ public class Player extends GameObject implements Movable {
 
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
-        Position p = game.getPlayer().getPosition();
-        Decor bomb = new Bomb4();
-        game.getWorld().set(p, bomb);
+        if (bombVal>0){
+            Position p = game.getPlayer().getPosition();
+            Decor bomb = new Bomb4();
+            game.getWorld().set(p, bomb);
+            bombVal = bombVal - 1;
+        }
     }
 
    //ouvrir la porte si key > 0
     public void requestKey(){
         //remplacer la porte si on a une clé -> niveau suivant
         Position nextPos = direction.nextPosition(getPosition());
-        if (key > 0){
+        if (key > 0
+            && game.getWorld().get(nextPos).toString() == "DoorNextClosed"){
             key = key - 1;
             game.getWorld().clear(nextPos);
             Decor next = new DoorNextOpened();
