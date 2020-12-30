@@ -44,7 +44,7 @@ public class Player extends GameObject implements Movable {
         return bombRange;
     }
 
-    public static int getKey() {
+    public int getKey() {
         return key;
     }
 
@@ -148,7 +148,6 @@ public class Player extends GameObject implements Movable {
 
     public void update(long now) {
         if (moveRequested) {
-            System.out.println(now);
             if (canMove(direction)) {
                 doMove(direction);
             }

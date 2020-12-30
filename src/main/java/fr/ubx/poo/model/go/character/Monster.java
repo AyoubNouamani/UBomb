@@ -11,19 +11,17 @@ import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.DoorNextOpened;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Monster extends GameObject implements Movable{
     Direction directionMonster;
     private boolean moveRequested = false;
+    public int time = 0;
 
     public Monster(Game game, Position position){
         super(game, position);
-        this.directionMonster=Direction.random();
+        this.directionMonster = Direction.random();
     }
     public void requestMove(Direction directionMonster) {
         if (directionMonster != this.directionMonster) {
@@ -31,6 +29,8 @@ public class Monster extends GameObject implements Movable{
         }
         moveRequested = true;
     }
+
+    
     public Direction getDirectionMonster() {
         return directionMonster;
     }
@@ -57,8 +57,9 @@ public class Monster extends GameObject implements Movable{
         // TODO Auto-generated method stub
         Position nextPos = directionMonster.nextPosition(getPosition());
         setPosition(nextPos);
-
     }
+
+
     public void update(long now) {
         if (moveRequested) {
             if (canMove(directionMonster)) {

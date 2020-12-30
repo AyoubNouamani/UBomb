@@ -30,7 +30,6 @@ import java.util.List;
 public final class GameEngine {
 
     private static AnimationTimer gameLoop;
-   
     private final String windowTitle;
     private final Game game;
     private final Player player;
@@ -84,8 +83,6 @@ public final class GameEngine {
             public void handle(long now) {
                 // Check keyboard actions
                 processInput(now);
-             
-                processMonster(now*100000000);
               
                 // Do actions
                 update(now);
@@ -100,11 +97,10 @@ public final class GameEngine {
       
      
     
-    private void processMonster(long now) {
+    private void processMonster() {
+        // effectuer un mvt tout les seconds
         Direction mons = fr.ubx.poo.game.Direction.random();
-       // System.out.println("un move");
-	
-       
+
         if (mons == Direction.W ){
             monster.requestMove(Direction.W);
         }
@@ -116,7 +112,11 @@ public final class GameEngine {
         }
         if (mons == Direction.N ){
             monster.requestMove(Direction.N);
-        }
+        }                
+    }
+
+    private void processBombs(){
+        //chercher les bombs dans la map
         
     }
     
@@ -127,22 +127,6 @@ public final class GameEngine {
             Platform.exit();
             System.exit(0);
         }
-        
-        /*if (input.isMoveDown()) {
-            monster.requestMove(Direction.S);
-        }
-        
-        if (input.isMoveLeft()) {
-            monster.requestMove(Direction.W);
-        }
-        if (input.isMoveRight()) {
-            monster.requestMove(Direction.E);
-        }
-        if (input.isMoveUp()) {
-            monster.requestMove(Direction.N);
-        }
-    
-        }*/
         
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
@@ -181,7 +165,6 @@ public final class GameEngine {
         new AnimationTimer() {
             public void handle(long now) {
                 processInput(now);
-                processMonster(now);
             }
         }.start();
     }
@@ -190,6 +173,17 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
         monster.update(now);
+
+        int foo = Character.getNumericValue(String.valueOf(now).charAt(4));
+        if (foo != monster.time){
+            // Actualize monster 
+            processMonster();
+    
+            //Actualize bombs
+            processBombs();
+
+            monster.time = foo;
+        }
 
         // on supprime tous les decors et on le re-initilize 
         sprites.forEach(Sprite::remove); 
