@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
@@ -93,34 +94,6 @@ public final class GameEngine {
             }
         };
     }
-
-      
-     
-    
-    private void processMonster() {
-        // effectuer un mvt tout les seconds
-        Direction mons = fr.ubx.poo.game.Direction.random();
-
-        if (mons == Direction.W ){
-            monster.requestMove(Direction.W);
-        }
-        if (mons == Direction.E ){
-            monster.requestMove(Direction.E);
-        }
-        if (mons == Direction.S ){
-            monster.requestMove(Direction.S);
-        }
-        if (mons == Direction.N ){
-            monster.requestMove(Direction.N);
-        }                
-    }
-
-    private void processBombs(){
-        //chercher les bombs dans la map
-        int height = game.getWorld().dimension.height;
-        int width = game.getWorld().dimension.width;
-        
-    }
     
  
     private void processInput(long now) {
@@ -152,6 +125,25 @@ public final class GameEngine {
         input.clear();
     }
 
+    public void processMonster() {
+        // effectuer un mvt tout les seconds
+        Direction mons = fr.ubx.poo.game.Direction.random();
+
+        if (mons == Direction.W ){
+            monster.requestMove(Direction.W);
+        }
+        if (mons == Direction.E ){
+            monster.requestMove(Direction.E);
+        }
+        if (mons == Direction.S ){
+            monster.requestMove(Direction.S);
+        }
+        if (mons == Direction.N ){
+            monster.requestMove(Direction.N);
+        }                
+    }
+
+
     private void showMessage(String msg, Color color) {
         Text waitingForKey = new Text(msg);
         waitingForKey.setTextAlignment(TextAlignment.CENTER);
@@ -176,15 +168,15 @@ public final class GameEngine {
         player.update(now);
         monster.update(now);
 
-        int foo = Character.getNumericValue(String.valueOf(now).charAt(1));
-        if (foo != monster.time){
+        int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+        if (sec != monster.time){
             // Actualize monster 
             processMonster();
     
             //Actualize bombs
-            processBombs();
+            //player.Countdown();
 
-            monster.time = foo;
+            monster.time = sec;
         }
 
         // on supprime tous les decors et on le re-initilize 

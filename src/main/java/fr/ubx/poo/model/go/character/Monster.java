@@ -30,6 +30,7 @@ public class Monster extends GameObject implements Movable{
         moveRequested = true;
     }
 
+  
     
     public Direction getDirectionMonster() {
         return directionMonster;
@@ -47,7 +48,6 @@ public class Monster extends GameObject implements Movable{
             || object == "Box"){
                 return false;
             }
-       
         }
         return nextPos.inside(game.getWorld().dimension);
     }

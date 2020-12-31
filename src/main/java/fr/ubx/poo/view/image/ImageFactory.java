@@ -21,13 +21,13 @@ public final class ImageFactory {
         MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
     private final ImageResource[] Bomb = new ImageResource[]{
-        // Direction { N, E, S, W }
-        MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
+        // Explosion { 1, 2, 3, 4 }
+        BOMB1, BOMB2, BOMB3, BOMB4,
     };
 
     private final ImageResource[] digits = new ImageResource[]{
-            DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
-            DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
+        DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
+        DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
     };
 
     private ImageFactory() {

@@ -61,12 +61,7 @@ public class Player extends GameObject implements Movable {
 
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
-        if (bombVal>0){
-            Position p = game.getPlayer().getPosition();
-            Decor bomb = new Bomb4();
-            game.getWorld().set(p, bomb);
-            bombVal = bombVal - 1;
-        }
+        //requestBomb();
     }
 
    //ouvrir la porte si key > 0
@@ -133,7 +128,6 @@ public class Player extends GameObject implements Movable {
                 game.getWorld().clear(nextPos);
             }
             else if (object == "DoorNextClosed"){
-                
                 return false;
             }
             else if (object == "DoorNextOpened"){
@@ -166,5 +160,9 @@ public class Player extends GameObject implements Movable {
     public boolean isAlive() {
         if (lives == 0) return false;
         return alive;
+    }
+
+    public void decreasBomb(){
+        bombVal = bombVal - 1;
     }
 }

@@ -39,6 +39,7 @@ public enum ImageResource {
     STONE("stone.png"),
     TREE("tree.png"),
     PRINCESS("bomberwoman.png"),
+    EXPLOSION("explosion.png"),
 
     ;
 
