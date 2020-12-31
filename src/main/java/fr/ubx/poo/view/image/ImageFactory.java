@@ -20,6 +20,7 @@ public final class ImageFactory {
         // Direction { N, E, S, W }
         MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
+    // a la fin getBomb
     private final ImageResource[] Bomb = new ImageResource[]{
         // Explosion { 1, 2, 3, 4 }
         BOMB1, BOMB2, BOMB3, BOMB4,
@@ -66,6 +67,10 @@ public final class ImageFactory {
     }
     public Image getMonster(Direction direction) {
         return get(directionsMonster[direction.ordinal()]);
+    }
+    // a modifier pour pouvoir explosé dans toutes les directions
+    public Image getBomb(Direction direction){
+        return get(Bomb [direction.ordinal()]);
     }
     /* Holder */
 

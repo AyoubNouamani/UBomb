@@ -11,8 +11,10 @@ import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.character.Monster;
 
 public class Player extends GameObject implements Movable {
 
@@ -61,6 +63,8 @@ public class Player extends GameObject implements Movable {
 
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
+      // Bomb bomb = new Bomb(game, getPosition());
+      // game.getWorld().set(getPosition(), bomb);
         //requestBomb();
     }
 
@@ -81,6 +85,9 @@ public class Player extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
+ 
+  
+ 
         //detecte si c'est pas null (espace vide sans decor)
         if (!game.getWorld().isEmpty(nextPos)){
             String object = game.getWorld().get(nextPos).toString();
@@ -102,11 +109,15 @@ public class Player extends GameObject implements Movable {
                     return false;
                 }
             }
+            
+            
             // on clear chaque objet quand on passe dessus ensuite il faut aller dans gameEngine
             else if (object == "Key") {
                 key = key + 1;
                 game.getWorld().clear(nextPos);
             }
+         
+            
             else if (object == "BombRangeInc"){ 
                 bombRange = bombRange + 1;
                 game.getWorld().clear(nextPos);
