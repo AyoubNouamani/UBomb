@@ -45,7 +45,8 @@ public class Monster extends GameObject implements Movable{
             String object = v.toString();
             if (object == "Stone" 
             || object == "Tree" 
-            || object == "Box"){
+            || object == "Box"
+            || object == "Princess"){
                 return false;
             }
         }
@@ -57,6 +58,9 @@ public class Monster extends GameObject implements Movable{
         // TODO Auto-generated method stub
         Position nextPos = directionMonster.nextPosition(getPosition());
         setPosition(nextPos);
+        if (game.getPlayer().getPosition().equals(game.getMonster().getPosition())){
+            game.getPlayer().decreaseLive();
+        }
     }
 
 

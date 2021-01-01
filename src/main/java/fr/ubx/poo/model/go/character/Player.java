@@ -92,9 +92,11 @@ public class Player extends GameObject implements Movable {
                 //on detecte si le mvt peut être effectué avec deux test
                     // - si y'a pas un objet apres
                     // - la caisse reste a l'interieur du monde
+                    // - y'a pas un monstre dans l'mplacement
                 Position after = direction.nextPosition(nextPos);
                 if (after.inside(game.getWorld().dimension) 
-                    && game.getWorld().isEmpty(after)){
+                    && game.getWorld().isEmpty(after)
+                    && !after.equals(game.getMonster().getPosition())){
                     game.getWorld().clear(nextPos);
                     Decor box = new Box();
                     game.getWorld().set(after, box);
@@ -142,6 +144,9 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        if (game.getPlayer().getPosition().equals(game.getMonster().getPosition())){
+            decreaseLive();
+        }
     }
 
     public void update(long now) {
@@ -164,5 +169,10 @@ public class Player extends GameObject implements Movable {
 
     public void decreasBomb(){
         bombVal = bombVal - 1;
+    }
+
+    public void decreaseLive(){
+        lives = lives - 1;
+
     }
 }

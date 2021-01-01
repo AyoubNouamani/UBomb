@@ -77,5 +77,6 @@ public class World {
     }
     public boolean hasChanged(){
         //if( values())
-        return changed;} // le getter
+        return changed;
+    } // le getter
 }

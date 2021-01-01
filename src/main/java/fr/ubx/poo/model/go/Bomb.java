@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.*;
 
@@ -45,12 +46,29 @@ public class Bomb extends GameObject {
             Decor bomb = new Bomb1();
             game.getWorld().set(getPosition(), bomb);
         }else{
-            Decor explosion = new Explosion();
-            game.getWorld().set(getPosition(), explosion);
+            //creer explosion
+            String tab[] = {"N", "S", "E", "W"};
             
 
+            Decor explosion = new Explosion();
+            game.getWorld().set(p, explosion);
+            Position s = Direction.S.nextPosition(p);
+            game.getWorld().set(s, explosion);
+            Position n = Direction.N.nextPosition(p);
+            game.getWorld().set(n, explosion);
+            Position e = Direction.E.nextPosition(p);
+            game.getWorld().set(e, explosion);
+            Position w = Direction.W.nextPosition(p);
+            game.getWorld().set(w, explosion); 
         }
     }
 
+    public void erasseExplosion(){
+        game.getWorld().clear(p);
+        game.getWorld().clear(Direction.S.nextPosition(p));
+        game.getWorld().clear(Direction.N.nextPosition(p));
+        game.getWorld().clear(Direction.E.nextPosition(p));
+        game.getWorld().clear(Direction.W.nextPosition(p));
+    }
 
 }
