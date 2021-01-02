@@ -10,6 +10,7 @@ import fr.ubx.poo.model.decor.*;
 
 
 public class Bomb extends GameObject {
+    // peut etre ajouter direction et du coup getDirection
     Position p;
     public int time;
     private int bombRange;

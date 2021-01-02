@@ -25,7 +25,7 @@ public class Game {
     public int initRangeBomb;
 
 
-    public Game(String worldPath) {
+    public Game(String worldPath) throws Exception {
         world = new WorldStatic();
         this.worldPath = worldPath;
         loadConfig(worldPath);
@@ -68,13 +68,16 @@ public class Game {
     public World getWorld() {
         return world;
     }
-    
 
     public Player getPlayer() {
         return this.player;
     }
     public Monster getMonster(){
         return this.monster;
+    }
+
+    public String getWorldPath(){
+        return this.worldPath;
     }
 
 }

@@ -1,8 +1,12 @@
 /*
  * Copyright (c) 2020. Laurent Réveillère
  */
-
 package fr.ubx.poo.game;
+
+
+
+import static fr.ubx.poo.game.WorldEntity.*;
+
 
 import fr.ubx.poo.model.decor.Decor;
 
@@ -16,10 +20,11 @@ public class World {
     public final Dimension dimension;
     private boolean changed; // pour voir si le monde a changé
 
-    public World(WorldEntity[][] raw) {
+    public World(WorldEntity[][] raw) throws Exception {
         this.raw = raw;
+        //this.raw = creatWorld();
         dimension = new Dimension(raw.length, raw[0].length);
-        grid = WorldBuilder.build(raw, dimension);
+        grid = WorldBuilder.build(raw, dimension);        
     }
 
     public Position findPlayer() throws PositionNotFoundException {
@@ -43,6 +48,10 @@ public class World {
         }
         throw new PositionNotFoundException("Monster");
     }
+
+    // load the level in the file
+    
+
 
     public Decor get(Position position) {
         return grid.get(position);
