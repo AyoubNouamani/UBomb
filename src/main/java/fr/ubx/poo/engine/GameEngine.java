@@ -167,14 +167,12 @@ public final class GameEngine {
         player.update(now);
         monster.update(now);
 
-        int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+        int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
         if (sec != monster.time){
             // Actualize monster 
             processMonster();
-    
             //Actualize bombs
             //player.Countdown();
-
             monster.time = sec;
         }
 

@@ -4,7 +4,7 @@
 
 package fr.ubx.poo.game;
 
-import java.io.File;
+import java.io.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,23 +14,24 @@ import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
-
     private final World world;
     private final Player player;
     private final Monster monster;
     private final String worldPath;
+    public String nameLevels;
+    public int initLevels;
     public int initPlayerLives;
     public int initPlayerKey;
     public int initNumberBomb;
     public int initRangeBomb;
 
 
-    public Game(String worldPath) throws Exception {
-        world = new WorldStatic();
+    public Game(String worldPath) throws IOException, Exception {
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
         Position positionMonster = null;
+        world = new WorldFromFile(worldPath, nameLevels, 2);
         try {
             positionPlayer = world.findPlayer();
             player = new Player(this, positionPlayer);
@@ -42,24 +43,17 @@ public class Game {
         }
     }
 
-    public int getInitPlayerLives() {
-        return initPlayerLives;
-    }
-    public int getinitNumberBomb() {
-        return initNumberBomb;
-    }
-    public int getInitPlayerKey() {
-        return initPlayerKey;
-    }
-
+    
     private void loadConfig(String path) {
         try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
             Properties prop = new Properties();
             // load the configuration file
             prop.load(input);
-            initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
-            initNumberBomb = Integer.parseInt(prop.getProperty("BombNumberInc", "3"));// pas fini
-            initPlayerKey = Integer.parseInt(prop.getProperty("key", "0"));
+            nameLevels = prop.getProperty("prefix");
+            initLevels = Integer.parseInt(prop.getProperty("levels"));
+            initPlayerLives = Integer.parseInt(prop.getProperty("lives"));
+            initPlayerKey = Integer.parseInt(prop.getProperty("key"));
+            initNumberBomb = Integer.parseInt(prop.getProperty("bombes"));
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }

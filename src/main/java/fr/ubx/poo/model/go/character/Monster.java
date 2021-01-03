@@ -29,8 +29,6 @@ public class Monster extends GameObject implements Movable{
         }
         moveRequested = true;
     }
-
-  
     
     public Direction getDirectionMonster() {
         return directionMonster;

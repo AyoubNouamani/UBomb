@@ -23,14 +23,16 @@ public class Player extends GameObject implements Movable {
     private boolean moveRequested = false;
     private int lives;
     private static int key;
-    private int bombVal = 2;
-    private int bombRange = 1;
+    private int bombVal;
+    private int bombRange;
     private boolean winner;
 
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.S;
-        this.lives = game.getInitPlayerLives();
+        this.lives = game.initPlayerLives;
+        this.bombVal = game.initNumberBomb;
+        this.bombRange = 1;
         // mettre initbomb
     }
 
@@ -63,9 +65,8 @@ public class Player extends GameObject implements Movable {
 
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
-      // Bomb bomb = new Bomb(game, getPosition());
-      // game.getWorld().set(getPosition(), bomb);
-        //requestBomb();
+        //Bomb bomb = new Bomb(game, getPosition());
+        //game.getWorld().set(getPosition(), bomb);
     }
 
    //ouvrir la porte si key > 0
@@ -85,9 +86,6 @@ public class Player extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
- 
-  
- 
         //detecte si c'est pas null (espace vide sans decor)
         if (!game.getWorld().isEmpty(nextPos)){
             String object = game.getWorld().get(nextPos).toString();
@@ -110,16 +108,12 @@ public class Player extends GameObject implements Movable {
                 }else{
                     return false;
                 }
-            }
-            
-            
+            }            
             // on clear chaque objet quand on passe dessus ensuite il faut aller dans gameEngine
             else if (object == "Key") {
                 key = key + 1;
                 game.getWorld().clear(nextPos);
             }
-         
-            
             else if (object == "BombRangeInc"){ 
                 bombRange = bombRange + 1;
                 game.getWorld().clear(nextPos);

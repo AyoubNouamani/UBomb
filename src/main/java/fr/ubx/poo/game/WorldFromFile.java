@@ -5,25 +5,7 @@ import static fr.ubx.poo.game.WorldEntity.*;
 import java.io.*; 
 
 
-public class WorldStatic extends World {
-    //private static WorldEntity[][] mapEntities = creatWorld();
-        /*{
-                {Stone, Empty, Heart, Empty, Empty, Empty, Empty, Empty, Empty, Empty, BombRangeDec, Empty},
-                {Player, Stone, Stone, Empty, Stone, Empty, Stone, Stone, Stone, Stone, Empty, Empty},
-                {Empty, Empty, Empty, Empty, Stone, Box, Stone, Empty, Empty, Stone, Empty, Empty},
-                {Empty, Empty, Empty, Empty, Stone, Box, Stone, Empty, Empty, Stone, Empty, Empty},
-                {Empty, Box, Empty, Empty, Stone, Stone, Stone, Empty, Empty, Empty, Empty, Empty},
-                {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Key, Empty, Stone, Empty, Empty},
-                {Empty, Tree, Empty, Tree, Empty, Empty, Empty, Empty, Empty, Stone, Empty, Empty},
-                {Empty, Empty, Box, Tree, Empty, Empty, Empty, Empty, Empty, Stone, Empty, Empty},
-                {Empty, Tree, Tree, Tree, Empty, Empty, Empty, Empty, Empty, Stone, Empty, Empty},
-                {Empty, Empty, Empty, Empty, Empty, Empty, BombRangeInc, Empty, Empty, Empty, Empty, Empty},
-                {Stone, Stone, Stone, Empty, Stone, Empty, Box, Box, Stone, Stone, Box, Stone},
-                {Empty, DoorNextClosed, Empty, Empty, Empty, Empty, Empty, Empty, Monster, Empty, Empty, Empty},
-                {Empty, BombNumberDec, Empty, Empty, Empty, Empty, Empty, Empty, BombNumberInc, Empty, Empty, Princess}
-        };*/
-    
-        
+public class WorldFromFile extends World {       
 
     public static WorldEntity objectW(String o) {
         switch (o) {
@@ -63,19 +45,26 @@ public class WorldStatic extends World {
                 return null;
         }
     }
-
+    
     
     public static WorldEntity[][] creatWorld(String path, String prefix, int level) throws IOException {
-
-        WorldEntity[][] level1 = new WorldEntity[12][12];
-        //String t = "./src/main/resources/sample/level1.txt";
         String document = path + "/" + prefix + String.valueOf(level) + ".txt";
+        //calculer hauteur et largeur du niveaux
         FileReader reader = new FileReader(document);
         BufferedReader bufferedReader = new BufferedReader(reader);
+        int length = 0;
+        int  width = 0;
         String line;
-        int x = 0;
-        
         while ((line = bufferedReader.readLine()) != null) {
+            length = length + 1;
+            width = line.length();
+        }
+        //creer le tableau du niveau 
+        WorldEntity[][] level1 = new WorldEntity[length][width];
+        FileReader reader2 = new FileReader(document);
+        BufferedReader fd = new BufferedReader(reader2);
+        int x = 0;
+        while ((line = fd.readLine()) != null) {
             for (int y = 0; y < line.length(); y++) {
                 String l = String.valueOf(line.charAt(y));
                 level1[x][y] = objectW(l);
@@ -86,7 +75,8 @@ public class WorldStatic extends World {
         return level1;
     }
 
-    public WorldStatic(String path, String prefix, int level) throws IOException, Exception {
+
+    public WorldFromFile(String path, String prefix, int level) throws IOException, Exception {
         super(creatWorld(path, prefix, level));
     }
 }
