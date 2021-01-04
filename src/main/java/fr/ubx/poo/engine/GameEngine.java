@@ -175,7 +175,7 @@ public final class GameEngine {
         }
         // on supprime tous les decors et on le re-initilize 
         sprites.forEach(Sprite::remove); 
-        sprites.clear(); 
+        sprites.clear();
         initialize(stage, game);
         
         //apres on regrde si le jouer a fini (gagné ou perdu)

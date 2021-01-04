@@ -24,7 +24,6 @@ public class StatusBar {
     private Text rangeValue = new Text();
     private Text keyValue = new Text();
     private HBox level = new HBox();
-    private int gameLevel = 1;
 
     private final Game game;
     private final DropShadow ds = new DropShadow();
@@ -36,7 +35,7 @@ public class StatusBar {
         this.game = game;
 
         level.getStyleClass().add("level");
-        level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(gameLevel)));
+        level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(game.actualLevel)));
 
         ds.setRadius(5.0);
         ds.setOffsetX(3.0);
@@ -61,10 +60,8 @@ public class StatusBar {
     }
 
     private void updateLevel(int n) {
-        if (n != gameLevel) {
-            level.getChildren().clear();
-            level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
-        }
+        level.getChildren().clear();
+        level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
     }
 
     private HBox statusGroup(Image kind, Text number) {
@@ -80,7 +77,7 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        updateLevel(gameLevel);
+        updateLevel(game.actualLevel);
         liveValue.setText(String.valueOf(game.getPlayer().getLives()));
         rangeValue.setText(String.valueOf(game.getPlayer().getBombsRange()));
         bombsValue.setText(String.valueOf(game.getPlayer().getBombsValue()));

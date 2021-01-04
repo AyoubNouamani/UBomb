@@ -148,7 +148,8 @@ public class Player extends GameObject implements Movable {
             else if (object == "Princess") winner = true;
         }
         //detecte si le perosnnage sort de la map
-        return nextPos.inside(game.getWorld().dimension);
+        return true;
+        //return nextPos.inside(game.getWorld().dimension);
     }
 
     public void doMove(Direction direction) {
