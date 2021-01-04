@@ -14,7 +14,7 @@ import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
-    private final World world;
+    private final World[] world;
     private final Player player;
     private final Monster monster;
     private final String worldPath;
@@ -24,19 +24,23 @@ public class Game {
     public int initPlayerKey;
     public int initNumberBomb;
     public int initRangeBomb;
+    public int actualLevel = 1;
 
 
-    public Game(String worldPath) throws IOException, Exception {
+    public Game(String worldPath) throws IOException, Exception{
         this.worldPath = worldPath;
         loadConfig(worldPath);
+        World[] allWorlds = new World[initLevels];
+        for (int i = 0; i<initLevels; i++)
+            allWorlds[i]=new WorldFromFile(worldPath, nameLevels, i+1);                        
+        world = allWorlds;
         Position positionPlayer = null;
         Position positionMonster = null;
-        world = new WorldFromFile(worldPath, nameLevels, 2);
         try {
-            positionPlayer = world.findPlayer();
+            positionPlayer = world[actualLevel-1].findPlayer();
             player = new Player(this, positionPlayer);
-            positionMonster = world.findMonster();
-            monster = new Monster(this,positionMonster);
+            positionMonster = world[actualLevel-1].findMonster();
+            monster = new Monster(this, positionMonster);
         } catch (PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -60,7 +64,7 @@ public class Game {
     }
 
     public World getWorld() {
-        return world;
+        return world[actualLevel-1];
     }
 
     public Player getPlayer() {

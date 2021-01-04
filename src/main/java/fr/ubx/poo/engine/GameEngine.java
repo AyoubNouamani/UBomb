@@ -75,7 +75,6 @@ public final class GameEngine {
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         spriteMonster = SpriteFactory.createMonster(layer, monster);
-
     }
 
     protected final void buildAndSetGameLoop() {
@@ -172,10 +171,8 @@ public final class GameEngine {
             // Actualize monster 
             processMonster();
             //Actualize bombs
-            //player.Countdown();
             monster.time = sec;
         }
-
         // on supprime tous les decors et on le re-initilize 
         sprites.forEach(Sprite::remove); 
         sprites.clear(); 

@@ -18,7 +18,6 @@ public class World {
     public final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
-    private boolean changed; // pour voir si le monde a changé
 
     public World(WorldEntity[][] raw) throws Exception {
         this.raw = raw;
@@ -30,7 +29,7 @@ public class World {
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Player) {
+                if (raw[y][x] == WorldEntity.Player || raw[y][x] == WorldEntity.DoorPrevOpened) {
                     return new Position(x, y);
                 }
             }
@@ -84,8 +83,4 @@ public class World {
     public boolean isEmpty(Position position) {
         return grid.get(position) == null;
     }
-    public boolean hasChanged(){
-        //if( values())
-        return changed;
-    } // le getter
 }

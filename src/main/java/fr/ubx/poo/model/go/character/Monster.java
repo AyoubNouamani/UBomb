@@ -15,6 +15,7 @@ import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Monster extends GameObject implements Movable{
+    
     Direction directionMonster;
     private boolean moveRequested = false;
     public int time = 0;
@@ -23,6 +24,7 @@ public class Monster extends GameObject implements Movable{
         super(game, position);
         this.directionMonster = Direction.random();
     }
+
     public void requestMove(Direction directionMonster) {
         if (directionMonster != this.directionMonster) {
             this.directionMonster = directionMonster;
@@ -36,17 +38,9 @@ public class Monster extends GameObject implements Movable{
 
     @Override
     public boolean canMove(Direction directionMonster) {
-         // TODO Auto-generated method stub
         Position nextPos = directionMonster.nextPosition(getPosition());
         if (!game.getWorld().isEmpty(nextPos)){
-            Decor v = game.getWorld().get(nextPos);
-            String object = v.toString();
-            if (object == "Stone" 
-            || object == "Tree" 
-            || object == "Box"
-            || object == "Princess"){
-                return false;
-            }
+            return false;
         }
         return nextPos.inside(game.getWorld().dimension);
     }

@@ -138,7 +138,12 @@ public class Player extends GameObject implements Movable {
                 return false;
             }
             else if (object == "DoorNextOpened"){
-                // passer au niveau suivant
+                //niveau suivant
+                game.actualLevel = game.actualLevel + 1;
+            }
+            else if (object == "DoorPrevOpened"){
+                //niveau precedent
+                game.actualLevel = game.actualLevel -1;
             }
             else if (object == "Princess") winner = true;
         }
