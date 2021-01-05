@@ -29,7 +29,7 @@ public class World {
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Player || raw[y][x] == WorldEntity.DoorPrevOpened) {
+                if (raw[y][x] == WorldEntity.Player) {
                     return new Position(x, y);
                 }
             }
@@ -50,6 +50,29 @@ public class World {
 
     // load the level in the file
     
+    public Position findDoorPrev(){
+        Position p = null;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.DoorPrevOpened) {
+                    p = new Position(x, y);
+                }
+            }
+        }
+        return p;
+    }
+
+    public Position findDoorNext(){
+        Position p = null;
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.DoorNextClosed) {
+                    p = new Position(x, y);
+                }
+            }
+        }
+        return p;
+    }
 
 
     public Decor get(Position position) {
