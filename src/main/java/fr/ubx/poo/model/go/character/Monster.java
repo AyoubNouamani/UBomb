@@ -15,7 +15,6 @@ import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Monster extends GameObject implements Movable{
-    
     Direction directionMonster;
     private boolean moveRequested = false;
     public int time = 0;

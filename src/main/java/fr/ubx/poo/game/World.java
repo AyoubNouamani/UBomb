@@ -50,7 +50,7 @@ public class World {
 
     // load the level in the file
     
-    public Position findDoorPrev(){
+    public Position findDoorPrevOpened() throws PositionNotFoundException {
         Position p = null;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -62,7 +62,7 @@ public class World {
         return p;
     }
 
-    public Position findDoorNext(){
+    public Position getDoorNext() throws PositionNotFoundException {
         Position p = null;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -72,6 +72,24 @@ public class World {
             }
         }
         return p;
+    }
+
+    public Position findDoorPrev() {
+        try {
+            return findDoorPrevOpened();
+        } catch (PositionNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Position findDoorNext() {
+        try {
+            return getDoorNext();
+        } catch (PositionNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
