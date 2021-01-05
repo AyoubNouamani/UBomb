@@ -141,11 +141,13 @@ public class Player extends GameObject implements Movable {
                 //niveau suivant
                 game.actualLevel = game.actualLevel + 1;
                 setPosition(game.getWorld().findDoorPrev());
+                return false;
             }
             else if (object == "DoorPrevOpened"){
                 //niveau precedent
                 game.actualLevel = game.actualLevel -1;
                 setPosition(game.getWorld().findDoorNext());
+                return false;
             }
             else if (object == "Princess") winner = true;
         }
