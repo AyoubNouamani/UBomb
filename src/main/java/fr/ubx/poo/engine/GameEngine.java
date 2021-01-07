@@ -34,6 +34,7 @@ public final class GameEngine {
     private final Game game;
     private final Player player;
     private final Monster monster;
+    private final ArrayList<Monster> monstertab;
     private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
@@ -41,12 +42,14 @@ public final class GameEngine {
     private Stage stage;
     private Sprite spritePlayer;
     private Sprite spriteMonster;
+    private ArrayList<Sprite>  spriteMonstertab;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
         this.monster = game.getMonster();
+        this.monstertab = game.getmonstertab();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -75,6 +78,11 @@ public final class GameEngine {
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         spriteMonster = SpriteFactory.createMonster(layer, monster);
+        spriteMonstertab = new ArrayList<>();
+        for (Monster monster : monstertab) {
+            spriteMonstertab.add(SpriteFactory.createMonster(layer, monster));
+        }
+
     }
 
     protected final void buildAndSetGameLoop() {
@@ -141,6 +149,38 @@ public final class GameEngine {
         }                
     }
 
+    public void processMonstertab() {
+        // effectuer un mvt tout les seconds
+        Direction mons = fr.ubx.poo.game.Direction.random();
+        Direction mons1 = fr.ubx.poo.game.Direction.random();
+        Direction mons2 = fr.ubx.poo.game.Direction.random();
+
+
+        for (Monster monster : monstertab) {
+            if (mons == Direction.W ){
+                monster.requestMove(Direction.W);
+            }  
+            
+        }
+        for (Monster monster : monstertab) {
+            if (mons1 == Direction.E ){
+                monster.requestMove(Direction.E);
+            }
+        }
+        for (Monster monster : monstertab) {
+            if (mons2 == Direction.S ){
+                monster.requestMove(Direction.S);
+            }
+        }
+        for (Monster monster : monstertab) {
+            if (mons == Direction.N ){
+                monster.requestMove(Direction.N);
+            }  
+        }
+        
+        
+    }
+
 
     private void showMessage(String msg, Color color) {
         Text waitingForKey = new Text(msg);
@@ -165,11 +205,15 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
         monster.update(now);
+        for (Monster monsters : monstertab) {
+            monsters.update(now);
+        }
 
         int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
         if (sec != monster.time){
             // Actualize monster 
             processMonster();
+            processMonstertab();
             //Actualize bombs
             monster.time = sec;
         }
@@ -194,6 +238,10 @@ public final class GameEngine {
         // last rendering to have player in the foreground
         spritePlayer.render();
         spriteMonster.render();
+        for (Sprite m : spriteMonstertab) {
+            m.render();
+        }
+        
     }
 
     public void start() {

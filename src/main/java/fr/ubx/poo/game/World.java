@@ -10,6 +10,7 @@ import static fr.ubx.poo.game.WorldEntity.*;
 
 import fr.ubx.poo.model.decor.Decor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -41,11 +42,25 @@ public class World {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {
+                  //  System.out.println("position ("+x+","+y+")");
                     return new Position(x, y);
                 }
             }
         }
         throw new PositionNotFoundException("Monster");
+    }
+    public ArrayList<Position> findMonster2() {
+        ArrayList<Position> tab = new ArrayList<>();
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.Monster) {
+                    System.out.println("position ("+x+","+y+")");
+                    tab.add(new Position(x,y));
+            
+                }
+            }
+        }
+        return tab;
     }
 
     // load the level in the file
