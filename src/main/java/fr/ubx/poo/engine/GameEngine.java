@@ -153,30 +153,12 @@ public final class GameEngine {
     public void processMonstertab() {
         //cette fonction sert presque a rien 
         // il faut que chaque monster soit random ****a modifier*****
-        Direction mons = fr.ubx.poo.game.Direction.random();
-        Direction mons1 = fr.ubx.poo.game.Direction.random();
-        Direction mons2 = fr.ubx.poo.game.Direction.random();
-        Direction mons3 = fr.ubx.poo.game.Direction.random();
-        
-        Direction [] directiontab = {mons,mons1,mons2,mons3};
+      
+    
         int size = monstertab.size();
         for (int i =0; i<size;i++) {
-            for(int j=0; j<3;j++){
-
-            if (directiontab[j] == Direction.W ){
-                monstertab.get(i).requestMove(Direction.W);
-            }
-            if (directiontab[j]== Direction.E ){
-                monstertab.get(i).requestMove(Direction.E);
-            }
-           
-            if (directiontab[j]== Direction.S ){
-                monstertab.get(i).requestMove(Direction.S);
-            }
-            if (directiontab[j]== Direction.N ){
-                monstertab.get(i).requestMove(Direction.N);
-            }  
-            }
+            Direction mons = fr.ubx.poo.game.Direction.random();
+            monstertab.get(i).requestMove(mons);
         }
        
         
@@ -213,7 +195,7 @@ public final class GameEngine {
         }
 
       //  for (Monster monster : monstertab) {
-         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+         int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
 
             if (sec != monster.time){
                 // Actualize monster 

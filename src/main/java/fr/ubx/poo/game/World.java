@@ -9,6 +9,7 @@ import static fr.ubx.poo.game.WorldEntity.*;
 
 
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Monster;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +50,7 @@ public class World {
         }
         throw new PositionNotFoundException("Monster");
     }
-
+    
     public ArrayList<Position> findAllMonster() {
         ArrayList<Position> tab = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
@@ -63,9 +64,27 @@ public class World {
         }
         return tab;
     }
+    public void findMonster2(Game game){
+       // ArrayList<Position> tab = new ArrayList<>();
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.Monster) {
+                   // System.out.println("position ("+x+","+y+")");
+                   Position posMon= Position(x,y);
+
+                    new Monster(game, posMon);
+            
+                }
+            }
+        }
+    }
 
     // load the level in the file
     
+    private Position Position(int x, int y) {
+        return Position(x, y);
+    }
+
     public Position findDoorPrevOpened() throws PositionNotFoundException {
         Position p = null;
         for (int x = 0; x < dimension.width; x++) {
