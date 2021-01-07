@@ -78,8 +78,9 @@ public final class GameEngine {
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         spriteMonster = SpriteFactory.createMonster(layer, monster);
-        spriteMonstertab = new ArrayList<>();
-        for (Monster monster : monstertab) {
+        // cree un tableau dynamique de spritemonster
+       spriteMonstertab = new ArrayList<>();
+       for (Monster monster : monstertab) {
             spriteMonstertab.add(SpriteFactory.createMonster(layer, monster));
         }
 
@@ -150,33 +151,34 @@ public final class GameEngine {
     }
 
     public void processMonstertab() {
-        // effectuer un mvt tout les seconds
+        //cette fonction sert presque a rien 
+        // il faut que chaque monster soit random ****a modifier*****
         Direction mons = fr.ubx.poo.game.Direction.random();
         Direction mons1 = fr.ubx.poo.game.Direction.random();
         Direction mons2 = fr.ubx.poo.game.Direction.random();
+        Direction mons3 = fr.ubx.poo.game.Direction.random();
+        
+        Direction [] directiontab = {mons,mons1,mons2,mons3};
+        int size = monstertab.size();
+        for (int i =0; i<size;i++) {
+            for(int j=0; j<3;j++){
 
-
-        for (Monster monster : monstertab) {
-            if (mons == Direction.W ){
-                monster.requestMove(Direction.W);
+            if (directiontab[j] == Direction.W ){
+                monstertab.get(i).requestMove(Direction.W);
+            }
+            if (directiontab[j]== Direction.E ){
+                monstertab.get(i).requestMove(Direction.E);
+            }
+           
+            if (directiontab[j]== Direction.S ){
+                monstertab.get(i).requestMove(Direction.S);
+            }
+            if (directiontab[j]== Direction.N ){
+                monstertab.get(i).requestMove(Direction.N);
             }  
-            
-        }
-        for (Monster monster : monstertab) {
-            if (mons1 == Direction.E ){
-                monster.requestMove(Direction.E);
             }
         }
-        for (Monster monster : monstertab) {
-            if (mons2 == Direction.S ){
-                monster.requestMove(Direction.S);
-            }
-        }
-        for (Monster monster : monstertab) {
-            if (mons == Direction.N ){
-                monster.requestMove(Direction.N);
-            }  
-        }
+       
         
         
     }
@@ -205,18 +207,23 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
         monster.update(now);
+        //tableau pour update
         for (Monster monsters : monstertab) {
             monsters.update(now);
         }
 
-        int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
-        if (sec != monster.time){
-            // Actualize monster 
-            processMonster();
-            processMonstertab();
-            //Actualize bombs
-            monster.time = sec;
-        }
+      //  for (Monster monster : monstertab) {
+         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+
+            if (sec != monster.time){
+                // Actualize monster 
+                processMonster();
+                processMonstertab();
+                //Actualize bombs
+                monster.time = sec;
+            }
+        
+        
         // on supprime tous les decors et on le re-initilize 
         sprites.forEach(Sprite::remove); 
         sprites.clear();
@@ -238,6 +245,7 @@ public final class GameEngine {
         // last rendering to have player in the foreground
         spritePlayer.render();
         spriteMonster.render();
+        // un tab pour render
         for (Sprite m : spriteMonstertab) {
             m.render();
         }

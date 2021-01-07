@@ -49,7 +49,8 @@ public class World {
         }
         throw new PositionNotFoundException("Monster");
     }
-    public ArrayList<Position> findMonster2() {
+
+    public ArrayList<Position> findAllMonster() {
         ArrayList<Position> tab = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {

@@ -40,7 +40,13 @@ public class Monster extends GameObject implements Movable{
         Position nextPos = directionMonster.nextPosition(getPosition());
         if (!game.getWorld().isEmpty(nextPos)){
             return false;
-        }
+        }// monstre ne doit pas se marcher dessus
+        /*for(int i =0; i<game.getmonstertab().size();i++){
+            if(game.getmonstertab().get(i).getPosition().equals(game.getmonstertab().get(i+1).getPosition())){
+                return false;
+            }
+        }*/
+
         return nextPos.inside(game.getWorld().dimension);
     }
 
@@ -51,7 +57,13 @@ public class Monster extends GameObject implements Movable{
         setPosition(nextPos);
         if (game.getPlayer().getPosition().equals(game.getMonster().getPosition())){
             game.getPlayer().decreaseLive();
-        }
+        }//on perd trop de vie mdr
+       /* for (Monster mon : game.getmonstertab()) {
+            if(game.getPlayer().getPosition().equals(mon.getPosition())){
+                game.getPlayer().decreaseLive();
+            }
+        }*/
+    
     }
 
 

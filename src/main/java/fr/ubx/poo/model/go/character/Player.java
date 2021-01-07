@@ -99,6 +99,7 @@ public class Player extends GameObject implements Movable {
                     // - la caisse reste a l'interieur du monde
                     // - y'a pas un monstre dans l'mplacement
                 Position after = direction.nextPosition(nextPos);
+              
                 if (after.inside(game.getWorld().dimension) 
                     && game.getWorld().isEmpty(after)
                     && !after.equals(game.getMonster().getPosition())){
@@ -158,9 +159,18 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
-        if (game.getPlayer().getPosition().equals(game.getMonster().getPosition())){
+        // tab de monster mon== chaque monster de getmonstertab
+       for (Monster mon : game.getmonstertab()) {
+            if (game.getPlayer().getPosition().equals(mon.getPosition() )){
+                decreaseLive();
+            }
+            
+        }
+        if (game.getPlayer().getPosition().equals(game.getMonster().getPosition() )){
             decreaseLive();
         }
+        
+       
     }
 
     public void update(long now) {
@@ -177,7 +187,7 @@ public class Player extends GameObject implements Movable {
     }
 
     public boolean isAlive() {
-        if (lives == 0) return false;
+        if (lives <= 0) return false;
         return alive;
     }
 
