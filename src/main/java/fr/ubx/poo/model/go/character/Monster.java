@@ -4,22 +4,22 @@
 
 package fr.ubx.poo.model.go.character;
 
-import java.util.Collection;
-import fr.ubx.poo.game.Direction;
+import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.game.Game;
+import fr.ubx.poo.game.Direction;
+
 
 public class Monster extends GameObject implements Movable{
     Direction directionMonster;
     private boolean moveRequested = false;
+    private int level;
 
-    public Monster(Game game, Position position){
+    public Monster(Game game, Position position, int level){
         super(game, position);
         this.directionMonster = Direction.random();
+        this.level = level;
     }
 
     public void requestMove(Direction directionMonster) {
@@ -28,7 +28,7 @@ public class Monster extends GameObject implements Movable{
         }
         moveRequested = true;
     }
-    
+
     public Direction getDirectionMonster() {
         return directionMonster;
     }
@@ -36,7 +36,7 @@ public class Monster extends GameObject implements Movable{
     @Override
     public boolean canMove(Direction directionMonster) {
         Position nextPos = directionMonster.nextPosition(getPosition());
-        if (!game.getWorld().isEmpty(nextPos)){
+        if (!game.getWorld(level).isEmpty(nextPos)){
             return false;
         }
         return nextPos.inside(game.getWorld().dimension);

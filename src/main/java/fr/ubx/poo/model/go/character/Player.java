@@ -5,18 +5,21 @@
 package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
+import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.*;
+import fr.ubx.poo.model.decor.Box;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.DoorNextOpened;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
 
     private final boolean alive = true;
-    Direction direction;
     private boolean moveRequested = false;
+    Direction direction;
     private int lives;
     private static int key;
     private int bombVal;
@@ -29,7 +32,6 @@ public class Player extends GameObject implements Movable {
         this.lives = game.initPlayerLives;
         this.bombVal = game.initNumberBomb;
         this.bombRange = 1;
-        // mettre initbomb
     }
 
     public int getLives() {
@@ -61,8 +63,11 @@ public class Player extends GameObject implements Movable {
 
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
-        //Bomb bomb = new Bomb(game, getPosition());
-        //game.getWorld().set(getPosition(), bomb);
+        if (bombVal > 0){
+            Bomb bomb = new Bomb(game, getPosition());
+            bomb.requestBomb();
+            game.addBomb(bomb);
+        }
     }
 
    //ouvrir la porte si key > 0
