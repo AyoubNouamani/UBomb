@@ -4,17 +4,13 @@
 
 package fr.ubx.poo.model.go.character;
 
-import java.util.Collection;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.model.go.character.Monster;
 
 public class Player extends GameObject implements Movable {
 
@@ -99,10 +95,8 @@ public class Player extends GameObject implements Movable {
                     // - la caisse reste a l'interieur du monde
                     // - y'a pas un monstre dans l'mplacement
                 Position after = direction.nextPosition(nextPos);
-              
                 if (after.inside(game.getWorld().dimension) 
-                    && game.getWorld().isEmpty(after)
-                    && !after.equals(game.getMonster().getPosition())){
+                    && game.getWorld().isEmpty(after)){
                     game.getWorld().clear(nextPos);
                     Decor box = new Box();
                     game.getWorld().set(after, box);
@@ -141,13 +135,13 @@ public class Player extends GameObject implements Movable {
             else if (object == "DoorNextOpened"){
                 //niveau suivant
                 game.actualLevel = game.actualLevel + 1;
-                setPosition(game.getWorld().findDoorPrev());
+                setPosition(game.getWorld().findDoor(WorldEntity.DoorPrevOpened));
                 return false;
             }
             else if (object == "DoorPrevOpened"){
                 //niveau precedent
                 game.actualLevel = game.actualLevel -1;
-                setPosition(game.getWorld().findDoorNext());
+                setPosition(game.getWorld().findDoor(WorldEntity.DoorNextClosed));
                 return false;
             }
             else if (object == "Princess") winner = true;
@@ -159,18 +153,6 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
-        // tab de monster mon== chaque monster de getmonstertab
-       for (Monster mon : game.getmonstertab()) {
-            if (game.getPlayer().getPosition().equals(mon.getPosition() )){
-                decreaseLive();
-            }
-            
-        }
-        if (game.getPlayer().getPosition().equals(game.getMonster().getPosition() )){
-            decreaseLive();
-        }
-        
-       
     }
 
     public void update(long now) {
@@ -187,16 +169,11 @@ public class Player extends GameObject implements Movable {
     }
 
     public boolean isAlive() {
-        if (lives <= 0) return false;
+        if (lives == 0) return false;
         return alive;
     }
 
     public void decreasBomb(){
         bombVal = bombVal - 1;
-    }
-
-    public void decreaseLive(){
-        lives = lives - 1;
-
     }
 }

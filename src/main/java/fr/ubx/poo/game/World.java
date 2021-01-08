@@ -3,18 +3,14 @@
  */
 package fr.ubx.poo.game;
 
-
-
 import static fr.ubx.poo.game.WorldEntity.*;
 
-
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.go.character.Monster;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
 
 public class World {
     public final Map<Position, Decor> grid;
@@ -31,65 +27,21 @@ public class World {
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Player) {
+                if (raw[y][x] == Player) {
                     return new Position(x, y);
                 }
             }
         }
         throw new PositionNotFoundException("Player");
     }
-    
-    public Position findMonster() throws PositionNotFoundException {
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Monster) {
-                  //  System.out.println("position ("+x+","+y+")");
-                    return new Position(x, y);
-                }
-            }
-        }
-        throw new PositionNotFoundException("Monster");
-    }
-    
-    public ArrayList<Position> findAllMonster() {
-        ArrayList<Position> tab = new ArrayList<>();
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Monster) {
-                    System.out.println("position ("+x+","+y+")");
-                    tab.add(new Position(x,y));
-            
-                }
-            }
-        }
-        return tab;
-    }
-    public void findMonster2(Game game){
-       // ArrayList<Position> tab = new ArrayList<>();
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Monster) {
-                   // System.out.println("position ("+x+","+y+")");
-                   Position posMon= Position(x,y);
-
-                    new Monster(game, posMon);
-            
-                }
-            }
-        }
-    }
 
     // load the level in the file
-    
-    private Position Position(int x, int y) {
-        return Position(x, y);
-    }
 
-    public Position findDoorPrevOpened() throws PositionNotFoundException {
+    public Position getDoor(WorldEntity Door) throws PositionNotFoundException {
         Position p = null;
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.DoorPrevOpened) {
+                if (raw[y][x] == Door) {
                     p = new Position(x, y);
                 }
             }
@@ -97,34 +49,14 @@ public class World {
         return p;
     }
 
-    public Position getDoorNext() throws PositionNotFoundException {
-        Position p = null;
-        for (int x = 0; x < dimension.width; x++) {
-            for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.DoorNextClosed) {
-                    p = new Position(x, y);
-                }
-            }
+    public Position findDoor(WorldEntity door) {
+        Position p =null;
+        try {
+            p = getDoor(door);
+        } catch (PositionNotFoundException e) {
+            e.printStackTrace();
         }
         return p;
-    }
-
-    public Position findDoorPrev() {
-        try {
-            return findDoorPrevOpened();
-        } catch (PositionNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Position findDoorNext() {
-        try {
-            return getDoorNext();
-        } catch (PositionNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 

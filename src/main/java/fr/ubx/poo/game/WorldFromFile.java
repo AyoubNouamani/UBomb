@@ -2,6 +2,9 @@ package fr.ubx.poo.game;
 
 import static fr.ubx.poo.game.WorldEntity.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.io.*; 
 
 
@@ -48,7 +51,9 @@ public class WorldFromFile extends World {
     
     
     public static WorldEntity[][] creatWorld(String path, String prefix, int level) throws IOException {
+        //Lien vers le fichier
         String document = path + "/" + prefix + String.valueOf(level) + ".txt";
+
         //calculer hauteur et largeur du niveaux
         FileReader reader = new FileReader(document);
         BufferedReader bufferedReader = new BufferedReader(reader);
@@ -56,10 +61,12 @@ public class WorldFromFile extends World {
         int  width = 0;
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            length = length + 1;
+            length++;
             width = line.length();
         }
-        //creer le tableau du niveau 
+        reader.close();
+
+        //creer le tableau du niveau avec les Entity
         WorldEntity[][] level1 = new WorldEntity[length][width];
         FileReader reader2 = new FileReader(document);
         BufferedReader fd = new BufferedReader(reader2);
@@ -71,8 +78,32 @@ public class WorldFromFile extends World {
             }
             x++;
         }
-        reader.close();
+        fd.close();
         return level1;
+    }
+
+    public static List<Position> findMonsters(String path, String prefix, int level) throws IOException {
+        //Map<Integer, Position> m = new Hashtable<>();
+        List<Position> position = new ArrayList<>();
+        String document = path + "/" + prefix + String.valueOf(level) + ".txt";
+        //creer le tableau du niveau 
+        FileReader reader = new FileReader(document);
+        BufferedReader fd = new BufferedReader(reader);
+        String line1;
+        int x = 0;
+        String letter = "M";
+        while ((line1 = fd.readLine()) != null) {
+            for (int y = 0; y < line1.length(); y++) {
+                String l = String.valueOf(line1.charAt(y));
+                if (l.equals(letter)){
+                    Position p = new Position(y,x);
+                    position.add(p);                     
+                }
+            }
+            x++;
+        }
+        fd.close();
+        return position;
     }
 
 

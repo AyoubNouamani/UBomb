@@ -22,8 +22,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 
 
@@ -33,23 +33,22 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final Monster monster;
-    private final ArrayList<Monster> monstertab;
-    private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private Sprite spriteMonster;
-    private ArrayList<Sprite>  spriteMonstertab;
+    private final List<Sprite> sprites = new ArrayList<>();
+    private List<List<Monster>> monsterTab = new ArrayList<>();
+    private List<Sprite> spriteMonstertab;
+    private boolean move = true;
+    public int time = 0;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
-        this.monster = game.getMonster();
-        this.monstertab = game.getmonstertab();
+        this.monsterTab = game.getMonsterTab();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -77,13 +76,12 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        spriteMonster = SpriteFactory.createMonster(layer, monster);
         // cree un tableau dynamique de spritemonster
-       spriteMonstertab = new ArrayList<>();
-       for (Monster monster : monstertab) {
+        List<Monster> m = monsterTab.get(game.actualLevel-1);
+        spriteMonstertab = new ArrayList<>();
+        for (Monster monster : m)
             spriteMonstertab.add(SpriteFactory.createMonster(layer, monster));
-        }
-
+        move = false;
     }
 
     protected final void buildAndSetGameLoop() {
@@ -112,27 +110,33 @@ public final class GameEngine {
         
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
+            move = true;
         }
 
         if (input.isMoveLeft()) {
             player.requestMove(Direction.W);
+            move = true;
         }
         if (input.isMoveRight()) {
             player.requestMove(Direction.E);
+            move = true;
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
+            move = true;
         }
         if (input.isBomb()){
             player.requestBomb();
+            move = true;
         }
         if (input.isKey()){
             player.requestKey();
+            move = true;
         }
         input.clear();
     }
 
-    public void processMonster() {
+    public void processMonster(Monster monster) {
         // effectuer un mvt tout les seconds
         Direction mons = fr.ubx.poo.game.Direction.random();
 
@@ -149,21 +153,7 @@ public final class GameEngine {
             monster.requestMove(Direction.N);
         }                
     }
-
-    public void processMonstertab() {
-        //cette fonction sert presque a rien 
-        // il faut que chaque monster soit random ****a modifier*****
-      
     
-        int size = monstertab.size();
-        for (int i =0; i<size;i++) {
-            Direction mons = fr.ubx.poo.game.Direction.random();
-            monstertab.get(i).requestMove(mons);
-        }
-       
-        
-        
-    }
 
 
     private void showMessage(String msg, Color color) {
@@ -187,29 +177,24 @@ public final class GameEngine {
 
 
     private void update(long now) {
-        player.update(now);
-        monster.update(now);
         //tableau pour update
-        for (Monster monsters : monstertab) {
-            monsters.update(now);
-        }
-
-      //  for (Monster monster : monstertab) {
-         int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
-
-            if (sec != monster.time){
-                // Actualize monster 
-                processMonster();
-                processMonstertab();
-                //Actualize bombs
-                monster.time = sec;
+        int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+        if (sec != time){
+            for (Monster monster : monsterTab.get(game.actualLevel-1)){
+                processMonster(monster);
+                monster.update(now);
             }
-        
-        
-        // on supprime tous les decors et on le re-initilize 
-        sprites.forEach(Sprite::remove); 
-        sprites.clear();
-        initialize(stage, game);
+            time = sec;
+            move = true;
+        }
+        // on supprime tous les decors et on le re-initilize quand c'est necessaire
+        //update sprites : mvt des monstres ou joeur
+        if (move){
+            player.update(now);
+            sprites.forEach(Sprite::remove); 
+            sprites.clear();
+            initialize(stage, game);
+        }
         
         //apres on regrde si le jouer a fini (gagné ou perdu)
         if (player.isAlive() == false) {
@@ -226,7 +211,6 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        spriteMonster.render();
         // un tab pour render
         for (Sprite m : spriteMonstertab) {
             m.render();
