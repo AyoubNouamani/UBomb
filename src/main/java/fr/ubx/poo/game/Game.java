@@ -31,25 +31,34 @@ public class Game {
     public List<List<Monster>> monsterTab;
     public List<List<Bomb>> BombTab = new ArrayList<>();
 
-    public Game(String worldPath) throws IOException, Exception{
+    public Game(String worldPath){
         this.worldPath = worldPath;
         loadConfig(worldPath);
 
         //creation des niveaux
+
         World[] allWorlds = new World[initLevels];
-        for (int i = 0; i<initLevels; i++)
-            allWorlds[i] = new WorldFromFile(worldPath, nameLevels, i+1);                        
+        try {
+            for (int i = 0; i<initLevels; i++)
+                allWorlds[i] = new WorldFromFile(worldPath, nameLevels, i+1);
+        }catch(Exception e){
+            System.err.println("Position not found : " + e.getLocalizedMessage());
+        }
         world = allWorlds;
 
         //creation Liste de tout les monstres de chaque niveaux  
         List<List<Monster>> monster = new ArrayList<>();
-        for (int x = 0; x<initLevels; x++){
-            List<Monster> m = new ArrayList<>();
-            List<Position> position = WorldFromFile.findMonsters(worldPath, nameLevels, x+1);
-            //Monster[] m = new Monster[position.size()];
-            for(int y=0; y<position.size(); y++)
-                m.add(new Monster(this, position.get(y), x));
-            monster.add(m);
+        try {
+            for (int x = 0; x<initLevels; x++){
+                List<Monster> m = new ArrayList<>();
+                List<Position> position = WorldFromFile.findMonsters(worldPath, nameLevels, x+1);
+                //Monster[] m = new Monster[position.size()];
+                for(int y=0; y<position.size(); y++)
+                    m.add(new Monster(this, position.get(y), x));
+                monster.add(m);
+            }
+        }catch(Exception e){
+            System.err.println("Position not found : " + e.getLocalizedMessage());
         }
         this.monsterTab = monster;
 

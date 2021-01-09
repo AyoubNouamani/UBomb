@@ -35,10 +35,11 @@ public class Bomb extends GameObject {
             if (game.getWorld().isEmpty(x)){
                 game.getWorld().set(x, explosion);
             }else{    
-                String object = game.getWorld().get(x).toString();
-                if (i>=0 && object == "Box"){
+                String object = game.getWorld(game.actualLevel-1).get(x).toString();
+                System.out.println(object);
+                if (object == "Box" && game.getWorld().get(t.nextPosition(x)).toString() == "Box"){
                     game.getWorld().set(x, explosion);
-                    break;
+                    //break;
                 }
                 else if (object != "Tree" 
                     && object != "Stone" 
@@ -49,7 +50,7 @@ public class Bomb extends GameObject {
                         game.getWorld().set(x, explosion);
                 }else{
                     break;
-                }         
+                }        
             }
             p = x;
         }

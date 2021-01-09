@@ -82,7 +82,7 @@ public class WorldFromFile extends World {
         return level1;
     }
 
-    public static List<Position> findMonsters(String path, String prefix, int level) throws IOException {
+    public static List<Position> findMonsters(String path, String prefix, int level) throws Exception {
         //Map<Integer, Position> m = new Hashtable<>();
         List<Position> position = new ArrayList<>();
         String document = path + "/" + prefix + String.valueOf(level) + ".txt";
@@ -106,8 +106,7 @@ public class WorldFromFile extends World {
         return position;
     }
 
-
-    public WorldFromFile(String path, String prefix, int level) throws IOException, Exception {
+    public WorldFromFile(String path, String prefix, int level) throws Exception {
         super(creatWorld(path, prefix, level));
     }
 }
