@@ -168,9 +168,7 @@ public final class GameEngine {
                 for (Monster monster : game.getMonsterTab().get(i)){
                     processMonster(monster);
                     monster.update(now);
-                    if(monster.getPosition().equals(player.getPosition()) ){
-                        player.decreasLive();
-                    }
+                    loseLive();
                 }
             }
 

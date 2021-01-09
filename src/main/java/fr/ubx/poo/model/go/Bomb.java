@@ -36,7 +36,10 @@ public class Bomb extends GameObject {
                 game.getWorld().set(x, explosion);
             }else{    
                 String object = game.getWorld().get(x).toString();
-                if (object != "Tree" 
+                if (i==1 && object == "Box"){
+                    break;
+                }
+                else if (object != "Tree" 
                     && object != "Stone" 
                     && object != "DoorNextClosed"
                     && object != "DoorNextOpened"
