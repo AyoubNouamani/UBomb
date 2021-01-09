@@ -149,6 +149,15 @@ public final class GameEngine {
             monster.requestMove(Direction.N);
         }                
     }
+
+    private void loseLive(){
+        for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
+            if(monster.getPosition().equals(player.getPosition()) ){
+                player.decreasLive();
+                System.out.println("decreaselives");
+            }
+        }
+    }
     
   
     private void update(long now) {
@@ -159,21 +168,29 @@ public final class GameEngine {
                 for (Monster monster : game.getMonsterTab().get(i)){
                     processMonster(monster);
                     monster.update(now);
+                    if(monster.getPosition().equals(player.getPosition()) ){
+                        player.decreasLive();
+                    }
                 }
             }
 
             if (!game.getBombTab().isEmpty()){
+                int x=0;
                 for (Bomb bomb : game.getBombTab().get(game.actualLevel-1)){
                     bomb.Countdown();
+                    if (bomb.time==-1)
+                        game.getBombTab().get(game.actualLevel-1).remove(x);
+                    x++;
                 }            
             }
-            
             time = sec;
             move = true;
         }
+
         // on supprime tous les decors et on le re-initilize quand c'est necessaire
         //update sprites : mvt des monstres ou joeur
         if (move){
+            loseLive();
             player.update(now);
             sprites.forEach(Sprite::remove); 
             sprites.clear();

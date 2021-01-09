@@ -174,11 +174,19 @@ public class Player extends GameObject implements Movable {
     }
 
     public boolean isAlive() {
-        if (lives == 0) return false;
+        if (lives < 1) return false;
         return alive;
     }
 
     public void decreasBomb(){
         bombVal = bombVal - 1;
+    }
+
+    public void decreasLive(){
+        lives--;
+    }
+
+    public void increasBomb(){
+        bombVal++;
     }
 }

@@ -29,7 +29,7 @@ public class Game {
     public int initRangeBomb;
     public int actualLevel = 1;
     public List<List<Monster>> monsterTab;
-    private List<List<Bomb>> BombTab = new ArrayList<>();
+    public List<List<Bomb>> BombTab = new ArrayList<>();
 
     public Game(String worldPath) throws IOException, Exception{
         this.worldPath = worldPath;

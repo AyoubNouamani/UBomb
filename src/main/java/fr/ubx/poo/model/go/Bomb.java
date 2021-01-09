@@ -38,7 +38,8 @@ public class Bomb extends GameObject {
                 && object != "Stone" 
                 && object != "DoorNextClosed"
                 && object != "DoorNextOpened"
-                && object != "DoorPrevOpened")
+                && object != "DoorPrevOpened"
+                && object != "Key")
                 game.getWorld().set(x, explosion);
         }
     }
@@ -61,16 +62,19 @@ public class Bomb extends GameObject {
             Position p = getPosition();
             game.getWorld().clear(p);
             Decor explosion = new Explosion();
+            game.getWorld().set(p, explosion);
             for (Direction x : tab){
                 explosionDecor(x, explosion);
             }
         }else{
             erasseExplosion();
+            game.getPlayer().increasBomb();
         }
     }
 
     public void erasseExplosion(){
         Position p = getPosition();
+        game.getWorld().clear(p);
         for (Direction x : tab){
             Position y = x.nextPosition(p);    
             if (!game.getWorld().isEmpty(y)){
