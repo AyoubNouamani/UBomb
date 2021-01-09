@@ -10,11 +10,11 @@ public class Bomb extends GameObject {
     // peut etre ajouter direction et du coup getDirection
     public int time;
     private Direction[] tab = {Direction.N, Direction.S, Direction.E, Direction.W};
-    //private int bombRange;
+    private int bombRange;
 
     public Bomb(Game game, Position position){
         super(game, position);
-        //this.bombRange = game.getPlayer().getBombsRange();
+        this.bombRange = game.getPlayer().getBombsRange();
         this.time = 4;
     }
 
@@ -29,18 +29,25 @@ public class Bomb extends GameObject {
 
     private void explosionDecor(Direction t, Decor explosion){
         //on regarde s'il y'a pas un objet a pas detruire
-        Position x = t.nextPosition(getPosition());
-        if (game.getWorld().isEmpty(x)){
-            game.getWorld().set(x, explosion);
-        }else{    
-            String object = game.getWorld().get(x).toString();
-            if (object != "Tree" 
-                && object != "Stone" 
-                && object != "DoorNextClosed"
-                && object != "DoorNextOpened"
-                && object != "DoorPrevOpened"
-                && object != "Key")
+        Position p = getPosition();
+        for(int i=0; i < bombRange ; i++){
+            Position x = t.nextPosition(p);
+            if (game.getWorld().isEmpty(x)){
                 game.getWorld().set(x, explosion);
+            }else{    
+                String object = game.getWorld().get(x).toString();
+                if (object != "Tree" 
+                    && object != "Stone" 
+                    && object != "DoorNextClosed"
+                    && object != "DoorNextOpened"
+                    && object != "DoorPrevOpened"
+                    && object != "Key"){
+                        game.getWorld().set(x, explosion);
+                }else{
+                    break;
+                }         
+            }
+            p = x;
         }
     }
 
@@ -67,15 +74,17 @@ public class Bomb extends GameObject {
                 explosionDecor(x, explosion);
             }
         }else{
-            erasseExplosion();
+            for (Direction x : tab){
+                erasseExplosion(x);
+            }
             game.getPlayer().increasBomb();
         }
     }
 
-    public void erasseExplosion(){
+    public void erasseExplosion(Direction x){
         Position p = getPosition();
         game.getWorld().clear(p);
-        for (Direction x : tab){
+        for (int i = 0; i<bombRange; i++){
             Position y = x.nextPosition(p);    
             if (!game.getWorld().isEmpty(y)){
                 String object = game.getWorld().get(y).toString();
@@ -83,6 +92,7 @@ public class Bomb extends GameObject {
                     game.getWorld().clear(y);
                 }
             }
+            p = y;
         }
     }
 
