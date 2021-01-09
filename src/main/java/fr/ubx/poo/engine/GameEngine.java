@@ -154,7 +154,6 @@ public final class GameEngine {
         for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
             if(monster.getPosition().equals(player.getPosition()) ){
                 player.decreasLive();
-                System.out.println("decreaselives");
             }
         }
     }
@@ -163,17 +162,20 @@ public final class GameEngine {
     private void update(long now) {
         //mvt monstres chaque second
         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
-        if (sec != time){
-            this.time = sec;
+        if (sec != this.time){
+            System.out.println(sec);
             for (int i = 0; i < game.initLevels; i++){
                 for (Monster monster : game.getMonsterTab().get(i)){
                     processMonster(monster);
                     monster.update(now);
-                    if (!player.invincible){
-
-                    }
-                    loseLive();
                 }
+            }
+            if (sec - player.inviTime == 2 || sec - player.inviTime == 8)
+                player.invincible = false;
+
+            if (!player.invincible){
+                loseLive();
+                player.inviTime = sec;
             }
 
             if (!game.getBombTab().isEmpty()){
@@ -185,14 +187,15 @@ public final class GameEngine {
                     x++;
                 }            
             }
-            time = sec;
+            this.time = sec;
             move = true;
         }
 
         // on supprime tous les decors et on le re-initilize quand c'est necessaire
         //update sprites : mvt des monstres ou joeur
         if (move){
-            loseLive();
+            if (!player.invincible)
+                loseLive();
             player.update(now);
             sprites.forEach(Sprite::remove); 
             sprites.clear();

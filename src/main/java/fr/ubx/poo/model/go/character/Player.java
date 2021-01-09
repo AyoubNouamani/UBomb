@@ -26,6 +26,7 @@ public class Player extends GameObject implements Movable {
     private int bombRange;
     private boolean winner;
     public boolean invincible = false;
+    public int inviTime = 0;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -185,6 +186,7 @@ public class Player extends GameObject implements Movable {
 
     public void decreasLive(){
         lives--;
+        invincible = true;
     }
 
     public void increasBomb(){
