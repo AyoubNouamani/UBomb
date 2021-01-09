@@ -164,10 +164,14 @@ public final class GameEngine {
         //mvt monstres chaque second
         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
         if (sec != time){
+            this.time = sec;
             for (int i = 0; i < game.initLevels; i++){
                 for (Monster monster : game.getMonsterTab().get(i)){
                     processMonster(monster);
                     monster.update(now);
+                    if (!player.invincible){
+
+                    }
                     loseLive();
                 }
             }

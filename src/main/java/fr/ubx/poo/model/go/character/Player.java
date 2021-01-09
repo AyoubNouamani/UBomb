@@ -25,6 +25,7 @@ public class Player extends GameObject implements Movable {
     private int bombVal;
     private int bombRange;
     private boolean winner;
+    public boolean invincible = false;
 
     public Player(Game game, Position position) {
         super(game, position);
