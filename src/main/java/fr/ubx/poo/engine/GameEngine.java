@@ -151,10 +151,6 @@ public final class GameEngine {
 
     private void loseLive(int sec){
         if (!player.invincible){
-            if (sec - player.inviTime > 1){
-                player.invincible = false;
-            }
-
             for (Monster monster : game.getWorld().getMonsterTab()){
                 if(monster.getPosition().equals(player.getPosition()) ){
                     player.decreasLive();
@@ -176,6 +172,10 @@ public final class GameEngine {
                         monster.update(now);
                     }
                 }
+            }
+
+            if (sec - player.inviTime > 1){
+                player.invincible = false;
             }
             
             //regarde si le joeuer doit perdre une vie
