@@ -8,7 +8,6 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
@@ -152,11 +151,16 @@ public final class GameEngine {
 
     private void loseLive(int sec){
         if (!player.invincible){
+            if (sec - player.inviTime > 1){
+                player.invincible = false;
+            }
+
             for (Monster monster : game.getWorld().getMonsterTab()){
                 if(monster.getPosition().equals(player.getPosition()) ){
                     player.decreasLive();
                 }
             }
+
             player.inviTime = sec;
         }
     }
@@ -165,9 +169,6 @@ public final class GameEngine {
         //mvt monstres chaque second
         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
         if (sec != time){
-            if (sec - player.inviTime > 1){
-                player.invincible = false;
-            }
             
             if (!game.getWorld().getMonsterTab().isEmpty()){
                 for (int i = 0; i < game.initLevels; i++){
@@ -178,17 +179,11 @@ public final class GameEngine {
                 }
             }
             
+            //regarde si le joeuer doit perdre une vie
             loseLive(sec);
 
-            int x=0;
-            for (int i = 0; i<game.initLevels; i++){
-                for (Bomb bomb : game.getWorld(i).getListBomb()){
-                    bomb.Countdown();
-                    if (bomb.time==-1)
-                        game.getWorld().getListBomb().remove(x);
-                    x++;
-                }  
-            }
+            //mise a jour des bombes possées
+            game.bombCountdown();
 
             this.time = sec;
             move = true;

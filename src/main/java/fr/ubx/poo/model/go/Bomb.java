@@ -37,9 +37,8 @@ public class Bomb extends GameObject {
     //regarde si a l'endroit de l'explosion s'y trouve un Monster ou un Player 
     private void explosionCharacter(Position pBomb){
         //Player
-        if (game.getPlayer().getPosition().equals(pBomb)){
+        if (game.getPlayer().getPosition().equals(pBomb))
             game.getPlayer().decreasLive();
-        }
 
         //Monster
         for (int i = 0; i < game.initLevels; i++){
@@ -54,8 +53,10 @@ public class Bomb extends GameObject {
         //Explosion bomb
         for (Bomb bomb : game.getWorld(level).getListBomb()){
             if (bomb.getPosition().equals(pBomb) && getPosition()!= bomb.getPosition()){
-                if (bomb.time > 1)
-                    bomb.time = 1;
+                if (bomb.time > 1){
+                    bomb.time = 2;
+                    bomb.Countdown();
+                }
             }         
         }
     }
@@ -63,7 +64,6 @@ public class Bomb extends GameObject {
     private void explosionDecor(Direction t, Decor explosion){
         //on regarde s'il y'a pas un objet a pas detruire
         Position p = getPosition();
-        String object2 = "X";
         for(int i=0; i < bombRange ; i++){
             Position x = t.nextPosition(p);
             explosionCharacter(x);
@@ -72,7 +72,8 @@ public class Bomb extends GameObject {
             }else{    
                 String object = game.getWorld(level).get(x).toString();
                 //Si deux caisses se suivent l'explosion s'arrete sur la premiere
-                if (object == "Box" && object2 == "Box"){
+                if (object == "Box"){
+                    game.getWorld(level).set(x, explosion);
                     break;
                 }
                 else if (object != "Tree" 
@@ -85,8 +86,7 @@ public class Bomb extends GameObject {
                         game.getWorld(level).set(x, explosion);
                 }else{
                     break;
-                }
-                object2 = object;       
+                }      
             }
             p = x;
         }
@@ -95,7 +95,7 @@ public class Bomb extends GameObject {
     public void Countdown(){
         time = time - 1;
         World world = game.getWorld(level);
-        if(time == 3){
+        if (time == 3){
             Decor bomb = new Bomb3();
             world.set(getPosition(), bomb);
         }   
@@ -106,21 +106,20 @@ public class Bomb extends GameObject {
         else if (time == 1){
             Decor bomb = new Bomb1();
             world.set(getPosition(), bomb);
-        }else if (time == 0){
+        }
+        else if (time == 0){
             //creer explosion
             Position p = getPosition();
             world.clear(p);
             Decor explosion = new Explosion();
             world.set(p, explosion);
-            for (Direction x : tab){
+            for (Direction x : tab)
                 explosionDecor(x, explosion);
-            }
-        }else if (time == -1){
-            Position p = getPosition();
-            explosionCharacter(p);            
-            for (Direction x : tab){
+        }
+        else if (time == -1){
+            explosionCharacter(getPosition());            
+            for (Direction x : tab)
                 erasseExplosion(x);
-            }
             game.getPlayer().increasBomb();
         }
     }
@@ -133,9 +132,8 @@ public class Bomb extends GameObject {
             Position y = x.nextPosition(p);    
             if (!world.isEmpty(y)){
                 String object = world.get(y).toString();
-                if (object == "Explosion"){
+                if (object == "Explosion")
                     world.clear(y);
-                }
             }
             p = y;
         }

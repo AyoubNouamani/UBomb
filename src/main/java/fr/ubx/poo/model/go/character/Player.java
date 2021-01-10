@@ -38,9 +38,8 @@ public class Player extends GameObject implements Movable {
 
     
     public void requestMove(Direction direction) {
-        if (direction != this.direction) {
+        if (direction != this.direction)
             this.direction = direction;
-        }
         moveRequested = true;
     }
     
@@ -175,7 +174,8 @@ public class Player extends GameObject implements Movable {
     }
     
     public boolean isAlive() {
-        if (lives < 1) return false;
+        if (lives < 1) 
+            return false;
         return alive;
     }
     

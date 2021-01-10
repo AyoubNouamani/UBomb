@@ -84,6 +84,18 @@ public class Game {
         }
     }
 
+    public void bombCountdown(){
+        int x=0;
+        for (int i = 0; i<initLevels; i++){
+            for (Bomb bomb : getWorld(i).getListBomb()){
+                bomb.Countdown();
+                if (bomb.time==-1)
+                    getWorld().getListBomb().remove(x);
+                x++;
+            }  
+        }
+    }
+
     public void levelChange(int i){
         actualLevel = actualLevel+i;
     }
