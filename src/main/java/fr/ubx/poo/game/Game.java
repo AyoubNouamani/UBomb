@@ -36,7 +36,6 @@ public class Game {
         loadConfig(worldPath);
 
         //creation des niveaux
-
         World[] allWorlds = new World[initLevels];
         try {
             for (int i = 0; i<initLevels; i++)

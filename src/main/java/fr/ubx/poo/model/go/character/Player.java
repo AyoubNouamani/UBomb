@@ -184,6 +184,10 @@ public class Player extends GameObject implements Movable {
         bombVal = bombVal - 1;
     }
 
+    public void decreaseLiveBomb(){
+        lives = lives -1;;
+    }
+
     public void decreasLive(){
         lives--;
         invincible = true;

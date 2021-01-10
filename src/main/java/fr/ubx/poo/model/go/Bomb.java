@@ -5,6 +5,8 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.*;
 
+import fr.ubx.poo.model.go.character.Monster;
+
 
 public class Bomb extends GameObject {
     // peut etre ajouter direction et du coup getDirection
@@ -27,19 +29,38 @@ public class Bomb extends GameObject {
         }
     }
 
+    //regarde si a l'endroit de l'explosion s'y trouve un Monster ou un Player 
+    private void explosionCharacter(Position pBomb){
+        for (int i = 0; i < game.initLevels; i++){
+            int x = 0;
+            for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
+                if (monster.getPosition().equals(pBomb)){
+                    game.getMonsterTab().get(game.actualLevel-1).remove(x);
+                }
+            }
+        }
+
+        if (game.getPlayer().getPosition().equals(pBomb)){
+            game.getPlayer().decreaseLiveBomb();
+        }
+    }
+
     private void explosionDecor(Direction t, Decor explosion){
         //on regarde s'il y'a pas un objet a pas detruire
         Position p = getPosition();
+        explosionCharacter(p);
+        String object2 = "X";
         for(int i=0; i < bombRange ; i++){
             Position x = t.nextPosition(p);
+            explosionCharacter(x);
             if (game.getWorld().isEmpty(x)){
                 game.getWorld().set(x, explosion);
             }else{    
-                String object = game.getWorld(game.actualLevel-1).get(x).toString();
-                System.out.println(object);
-                if (object == "Box" && game.getWorld().get(t.nextPosition(x)).toString() == "Box"){
-                    game.getWorld().set(x, explosion);
-                    //break;
+                String object = game.getWorld().get(x).toString();
+                //Si deux caisses se suivent l'explosion s'arrete sur le premiere
+                if (object == "Box" && object2 == "Box"){
+                    //game.getWorld().set(x, explosion);
+                    break;
                 }
                 else if (object != "Tree" 
                     && object != "Stone" 
@@ -50,7 +71,8 @@ public class Bomb extends GameObject {
                         game.getWorld().set(x, explosion);
                 }else{
                     break;
-                }        
+                }
+                object2 = object;       
             }
             p = x;
         }

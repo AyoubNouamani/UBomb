@@ -50,7 +50,7 @@ public class WorldFromFile extends World {
     }
     
     
-    public static WorldEntity[][] creatWorld(String path, String prefix, int level) throws IOException {
+    public static WorldEntity[][] creatWorld(String path, String prefix, int level) throws Exception {
         //Lien vers le fichier
         String document = path + "/" + prefix + String.valueOf(level) + ".txt";
 

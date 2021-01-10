@@ -164,9 +164,8 @@ public final class GameEngine {
   
     private void update(long now) {
         //mvt monstres chaque second
-        int sec = Character.getNumericValue(String.valueOf(now).charAt(3));
-        if (sec != this.time){
-            System.out.print(sec + " ");
+        int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
+        if (sec != time){
             for (int i = 0; i < game.initLevels; i++){
                 for (Monster monster : game.getMonsterTab().get(i)){
                     processMonster(monster);
@@ -194,8 +193,8 @@ public final class GameEngine {
 
         // on supprime tous les decors et on le re-initilize quand c'est necessaire
         //update sprites : mvt des monstres ou joeur
+        loseLive(sec);
         if (move){
-            loseLive(sec);
             player.update(now);
             sprites.forEach(Sprite::remove); 
             sprites.clear();

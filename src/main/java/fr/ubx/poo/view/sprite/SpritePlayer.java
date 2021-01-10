@@ -11,6 +11,19 @@ import javafx.scene.layout.Pane;
 
 public class SpritePlayer extends SpriteGameObject {
     private final ColorAdjust effect = new ColorAdjust();
+    
+
+    public void SpriteColor(Sprite player){
+        //effect.setContrast(-0.5);
+    }
+
+    public ColorAdjust getColorAdjust(){
+        return effect;
+    }
+
+    public void SpriteErraseColor(Sprite player){
+
+    }
 
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);
@@ -20,6 +33,8 @@ public class SpritePlayer extends SpriteGameObject {
     @Override
     public void updateImage() {
         Player player = (Player) go;
+        effect.setContrast(0.5);
+
         setImage(ImageFactory.getInstance().getPlayer(player.getDirection()));
     }
 }
