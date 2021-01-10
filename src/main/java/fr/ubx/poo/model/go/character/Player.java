@@ -47,7 +47,7 @@ public class Player extends GameObject implements Movable {
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
         if (bombVal > 0){
-            Bomb bomb = new Bomb(game, getPosition());
+            Bomb bomb = new Bomb(game, getPosition(), game.getAcutualLevel());
             bomb.requestBomb();
             game.addBomb(bomb);
         }
@@ -72,7 +72,7 @@ public class Player extends GameObject implements Movable {
         //false si on peut pas pouser la caise
         public boolean casseWithMonster(Position pBox){
         for (int i = 0; i < game.initLevels; i++){
-            for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
+            for (Monster monster : game.getWorld().getMonsterTab()){
                 if (monster.getPosition().equals(pBox)){
                     return false;
                 }
@@ -110,27 +110,29 @@ public class Player extends GameObject implements Movable {
             }            
             // on clear chaque objet quand on passe dessus ensuite il faut aller dans gameEngine
             else if (object == "Key") {
-                key = key + 1;
+                key++;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "BombRangeInc"){ 
-                bombRange = bombRange + 1;
+                bombRange++;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "BombRangeDec"){ 
-                bombRange = bombRange - 1;
+                if (bombRange>0)
+                    bombRange = bombRange - 1;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "Heart") {
-                lives = lives + 1;
+                lives++;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "BombNumberInc"){ 
-                bombVal = bombVal + 1;
+                bombVal++;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "BombNumberDec"){ 
-                bombVal = bombVal - 1;
+                if (bombVal>0)
+                    bombVal--;
                 game.getWorld().clear(nextPos);
             }
             else if (object == "DoorNextClosed"){
@@ -138,13 +140,13 @@ public class Player extends GameObject implements Movable {
             }
             else if (object == "DoorNextOpened"){
                 //niveau suivant
-                game.actualLevel = game.actualLevel + 1;
+                game.levelChange(1);
                 setPosition(game.getWorld().findDoor(WorldEntity.DoorPrevOpened));
                 return false;
             }
             else if (object == "DoorPrevOpened"){
                 //niveau precedent
-                game.actualLevel = game.actualLevel -1;
+                game.levelChange(-1);
                 setPosition(game.getWorld().findDoor(WorldEntity.DoorNextClosed));
                 return false;
             }
@@ -179,10 +181,6 @@ public class Player extends GameObject implements Movable {
     
     public void decreasBomb(){
         bombVal = bombVal - 1;
-    }
-    
-    public void decreaseLiveBomb(){
-        lives = lives -1;;
     }
     
     public void decreasLive(){

@@ -27,8 +27,7 @@ public class Game {
     public int initPlayerKey;
     public int initNumberBomb;
     public int initRangeBomb;
-    public int actualLevel = 1;
-    public List<List<Monster>> monsterTab;
+    private int actualLevel = 1;
     public List<List<Bomb>> BombTab = new ArrayList<>();
 
     public Game(String worldPath){
@@ -46,7 +45,6 @@ public class Game {
         world = allWorlds;
 
         //creation Liste de tout les monstres de chaque niveaux
-        List<List<Monster>> monster = new ArrayList<>();
         try {
             for (int x = 0; x<initLevels; x++){
                 List<Monster> m = new ArrayList<>();
@@ -54,12 +52,11 @@ public class Game {
                 //Monster[] m = new Monster[position.size()];
                 for(int y=0; y<position.size(); y++)
                     m.add(new Monster(this, position.get(y), x));
-                monster.add(m);
+                world[x].setListMonster(m);
             }
         }catch(Exception e){
             System.err.println("Position not found : " + e.getLocalizedMessage());
         }
-        this.monsterTab = monster;
 
         //Liste des bombes
         for (int x = 0; x<initLevels; x++){
@@ -95,8 +92,16 @@ public class Game {
         }
     }
 
+    public void levelChange(int i){
+        actualLevel = actualLevel+i;
+    }
+
     public void addBomb(Bomb bomb){
-        BombTab.get(actualLevel-1).add(bomb);
+        getWorld().addBomb(bomb);
+    }
+
+    public int getAcutualLevel(){
+        return this.actualLevel;
     }
 
     public List<List<Bomb>> getBombTab(){
@@ -113,10 +118,6 @@ public class Game {
 
     public Player getPlayer() {
         return this.player;
-    }
-
-    public List<List<Monster>> getMonsterTab() {
-        return monsterTab;
     }
 
     public String getWorldPath(){

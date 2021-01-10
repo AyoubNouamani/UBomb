@@ -77,7 +77,7 @@ public final class GameEngine {
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         // cree un tableau dynamique de spritemonster
         spriteMonstertab = new ArrayList<>();
-        game.getMonsterTab().get(game.actualLevel-1).forEach((monster) -> spriteMonstertab.add(SpriteFactory.createMonster(layer, monster)));
+        game.getWorld().getMonsterTab().forEach((monster) -> spriteMonstertab.add(SpriteFactory.createMonster(layer, monster)));
         move = false;
     }
 
@@ -152,7 +152,7 @@ public final class GameEngine {
 
     private void loseLive(int sec){
         if (!player.invincible){
-            for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
+            for (Monster monster : game.getWorld().getMonsterTab()){
                 if(monster.getPosition().equals(player.getPosition()) ){
                     player.decreasLive();
                 }
@@ -169,9 +169,9 @@ public final class GameEngine {
                 player.invincible = false;
             }
             
-            if (!game.getMonsterTab().isEmpty()){
+            if (!game.getWorld().getMonsterTab().isEmpty()){
                 for (int i = 0; i < game.initLevels; i++){
-                    for (Monster monster : game.getMonsterTab().get(i)){
+                    for (Monster monster : game.getWorld(i).getMonsterTab()){
                         processMonster(monster);
                         monster.update(now);
                     }
@@ -180,15 +180,16 @@ public final class GameEngine {
             
             loseLive(sec);
 
-            if (!game.getBombTab().get(game.actualLevel-1).isEmpty()){
-                int x=0;
-                for (Bomb bomb : game.getBombTab().get(game.actualLevel-1)){
+            int x=0;
+            for (int i = 0; i<game.initLevels; i++){
+                for (Bomb bomb : game.getWorld(i).getListBomb()){
                     bomb.Countdown();
                     if (bomb.time==-1)
-                        game.getBombTab().get(game.actualLevel-1).remove(x);
+                        game.getBombTab().get(game.getAcutualLevel()-1).remove(x);
                     x++;
-                }            
+                }  
             }
+
             this.time = sec;
             move = true;
         }

@@ -10,12 +10,18 @@ import fr.ubx.poo.model.decor.Decor;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import fr.ubx.poo.model.go.character.Monster;
+import fr.ubx.poo.model.go.Bomb;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class World {
     public final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
+    public List<Monster> monsters = new ArrayList<>();
+    public List<Bomb> bombes = new ArrayList<>();
 
     public World(WorldEntity[][] raw) throws Exception {
         this.raw = raw;
@@ -58,6 +64,21 @@ public class World {
         return p;
     }
 
+    public void addBomb(Bomb bomb){
+        this.bombes.add(bomb);
+    }
+
+    public List<Bomb> getListBomb(){
+        return this.bombes;
+    }
+
+    public void setListMonster(List<Monster> list){
+        this.monsters = list;
+    }
+
+    public List<Monster> getMonsterTab() {
+        return monsters;
+    }
 
     public Decor get(Position position) {
         return grid.get(position);
