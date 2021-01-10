@@ -174,12 +174,9 @@ public final class GameEngine {
                 }
             }
 
-            if (sec - player.inviTime > 1){
+            if (sec - player.inviTime > 1 || sec - player.inviTime < 0){
                 player.invincible = false;
             }
-            
-            //regarde si le joeuer doit perdre une vie
-            loseLive(sec);
 
             //mise a jour des bombes possées
             game.bombCountdown();
