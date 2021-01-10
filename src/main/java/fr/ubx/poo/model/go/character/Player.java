@@ -33,36 +33,17 @@ public class Player extends GameObject implements Movable {
         this.direction = Direction.S;
         this.lives = game.initPlayerLives;
         this.bombVal = game.initNumberBomb;
-        this.bombRange = 1;
+        this.bombRange = game.initRangeBomb;
     }
 
-    public int getLives() {
-        return lives;
-    }
-
-    public int getBombsValue() {
-        return bombVal;
-    }
-
-    public int getBombsRange() {
-        return bombRange;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
+    
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
         }
         moveRequested = true;
     }
-
+    
     //poser bomb sur l'endroit du joeur
     public void requestBomb(){
         if (bombVal > 0){
@@ -72,20 +53,35 @@ public class Player extends GameObject implements Movable {
         }
     }
 
-   //ouvrir la porte si key > 0
+    //ouvrir la porte si key > 0
     public void requestKey(){
         //remplacer la porte si on a une clé -> niveau suivant
         Position nextPos = direction.nextPosition(getPosition());
         if (key > 0
             && game.getWorld().get(nextPos).toString() == "DoorNextClosed"){
-            key = key - 1;
+                key = key - 1;
             game.getWorld().clear(nextPos);
             Decor next = new DoorNextOpened();
             game.getWorld().set(nextPos, next);
             //System.out.println("Porte remplacé");
         }
    } 
-
+   
+   //detect si il y'a un monstre dans l'emplacement 
+        //true : case sans monstre
+        //false si on peut pas pouser la caise
+        public boolean casseWithMonster(Position pBox){
+        for (int i = 0; i < game.initLevels; i++){
+            for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
+                if (monster.getPosition().equals(pBox)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
@@ -98,13 +94,14 @@ public class Player extends GameObject implements Movable {
             else if(object == "Box"){
                 // after = position apres la boite -> deux cases apres le direction du joueur
                 //on detecte si le mvt peut être effectué avec deux test
-                    // - si y'a pas un objet apres
-                    // - la caisse reste a l'interieur du monde
-                    // - y'a pas un monstre dans l'mplacement
+                // - si y'a pas un objet apres
+                // - la caisse reste a l'interieur du monde
+                // - y'a pas un monstre dans l'mplacement
                 Position after = direction.nextPosition(nextPos);
                 if (after.inside(game.getWorld().dimension) 
-                    && game.getWorld().isEmpty(after)){
-                    game.getWorld().clear(nextPos);
+                    && game.getWorld().isEmpty(after)
+                    && casseWithMonster(after)){
+                        game.getWorld().clear(nextPos);
                     Decor box = new Box();
                     game.getWorld().set(after, box);
                 }else{
@@ -156,7 +153,7 @@ public class Player extends GameObject implements Movable {
         //detecte si le perosnnage sort de la map
         return nextPos.inside(game.getWorld().dimension);
     }
-
+    
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
@@ -174,26 +171,46 @@ public class Player extends GameObject implements Movable {
     public boolean isWinner() {
         return winner;
     }
-
+    
     public boolean isAlive() {
         if (lives < 1) return false;
         return alive;
     }
-
+    
     public void decreasBomb(){
         bombVal = bombVal - 1;
     }
-
+    
     public void decreaseLiveBomb(){
         lives = lives -1;;
     }
-
+    
     public void decreasLive(){
         lives--;
         invincible = true;
     }
-
+    
     public void increasBomb(){
         bombVal++;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+    
+    public int getBombsValue() {
+        return bombVal;
+    }
+    
+    public int getBombsRange() {
+        return bombRange;
+    }
+    
+    public int getKey() {
+        return key;
+    }
+    
+    public Direction getDirection() {
+        return direction;
     }
 }

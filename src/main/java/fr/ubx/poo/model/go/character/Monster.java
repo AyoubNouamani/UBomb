@@ -33,13 +33,26 @@ public class Monster extends GameObject implements Movable{
         return directionMonster;
     }
 
+    //Mvt Monster
+        //true: Bonus ou Empty
+        //false: decor et dehors le niveau
     @Override
     public boolean canMove(Direction directionMonster) {
         Position nextPos = directionMonster.nextPosition(getPosition());
-        if (!game.getWorld(level).isEmpty(nextPos)){
-            return false;
+        if (game.getWorld(level).isEmpty(nextPos) && nextPos.inside(game.getWorld().dimension)){
+            return true;
         }
-        return nextPos.inside(game.getWorld().dimension);
+        else if(nextPos.inside(game.getWorld().dimension)){
+            String object = game.getWorld(level).get(nextPos).toString();
+            if( object == "Heart"
+            || object == "BombRangeInc"
+            || object == "BombRangeDec"
+            || object == "BombNumberInc"
+            || object == "BombNumberDec"){
+                return true;
+            }
+        }
+        return false;
     }
 
 

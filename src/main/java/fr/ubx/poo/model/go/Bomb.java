@@ -31,6 +31,12 @@ public class Bomb extends GameObject {
 
     //regarde si a l'endroit de l'explosion s'y trouve un Monster ou un Player 
     private void explosionCharacter(Position pBomb){
+        //Player
+        if (game.getPlayer().getPosition().equals(pBomb)){
+            game.getPlayer().decreaseLiveBomb();
+        }
+
+        //Monster
         for (int i = 0; i < game.initLevels; i++){
             int x = 0;
             for (Monster monster : game.getMonsterTab().get(game.actualLevel-1)){
@@ -40,15 +46,21 @@ public class Bomb extends GameObject {
             }
         }
 
-        if (game.getPlayer().getPosition().equals(pBomb)){
-            game.getPlayer().decreaseLiveBomb();
+        //Explosion bomb
+        if (!game.getBombTab().isEmpty()){
+            for (Bomb bomb : game.getBombTab().get(game.actualLevel-1)){
+                if (bomb.getPosition().equals(pBomb) && getPosition()!= bomb.getPosition()){
+                    if (bomb.time > 1){
+                        bomb.time = 1;
+                    }
+                }
+            }            
         }
     }
 
     private void explosionDecor(Direction t, Decor explosion){
         //on regarde s'il y'a pas un objet a pas detruire
         Position p = getPosition();
-        explosionCharacter(p);
         String object2 = "X";
         for(int i=0; i < bombRange ; i++){
             Position x = t.nextPosition(p);
@@ -58,7 +70,7 @@ public class Bomb extends GameObject {
             }else{    
                 String object = game.getWorld().get(x).toString();
                 //Si deux caisses se suivent l'explosion s'arrete sur le premiere
-                if (object == "Box" && object2 == "Box"){
+                if (object == "Box" && object2 == "Box" /*|| object == "Bomb1"*/){
                     //game.getWorld().set(x, explosion);
                     break;
                 }
@@ -67,7 +79,8 @@ public class Bomb extends GameObject {
                     && object != "DoorNextClosed"
                     && object != "DoorNextOpened"
                     && object != "DoorPrevOpened"
-                    && object != "Key"){
+                    && object != "Key"
+                    && object != "Princess"){
                         game.getWorld().set(x, explosion);
                 }else{
                     break;
@@ -122,5 +135,4 @@ public class Bomb extends GameObject {
             p = y;
         }
     }
-
 }

@@ -45,7 +45,7 @@ public class Game {
         }
         world = allWorlds;
 
-        //creation Liste de tout les monstres de chaque niveaux  
+        //creation Liste de tout les monstres de chaque niveaux
         List<List<Monster>> monster = new ArrayList<>();
         try {
             for (int x = 0; x<initLevels; x++){

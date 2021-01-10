@@ -160,25 +160,27 @@ public final class GameEngine {
             player.inviTime = sec;
         }
     }
-    
   
     private void update(long now) {
         //mvt monstres chaque second
         int sec = Character.getNumericValue(String.valueOf(now).charAt(4));
         if (sec != time){
-            for (int i = 0; i < game.initLevels; i++){
-                for (Monster monster : game.getMonsterTab().get(i)){
-                    processMonster(monster);
-                    monster.update(now);
-                }
-            }
-            if (sec - player.inviTime > 2){
+            if (sec - player.inviTime > 1){
                 player.invincible = false;
+            }
+            
+            if (!game.getMonsterTab().isEmpty()){
+                for (int i = 0; i < game.initLevels; i++){
+                    for (Monster monster : game.getMonsterTab().get(i)){
+                        processMonster(monster);
+                        monster.update(now);
+                    }
+                }
             }
             
             loseLive(sec);
 
-            if (!game.getBombTab().isEmpty()){
+            if (!game.getBombTab().get(game.actualLevel-1).isEmpty()){
                 int x=0;
                 for (Bomb bomb : game.getBombTab().get(game.actualLevel-1)){
                     bomb.Countdown();
@@ -192,7 +194,7 @@ public final class GameEngine {
         }
 
         // on supprime tous les decors et on le re-initilize quand c'est necessaire
-        //update sprites : mvt des monstres ou joeur
+        //update sprites : mvt des monstres ou joueur
         loseLive(sec);
         if (move){
             player.update(now);
@@ -230,13 +232,13 @@ public final class GameEngine {
             }
         }.start();
     }
+    
     private void render() {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
         // un tab pour render
-        for (Sprite m : spriteMonstertab)
-            m.render();   
+        spriteMonstertab.forEach(Sprite::render);   
     }
 
     public void start() {

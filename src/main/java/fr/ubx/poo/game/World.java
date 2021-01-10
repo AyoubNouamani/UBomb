@@ -19,7 +19,6 @@ public class World {
 
     public World(WorldEntity[][] raw) throws Exception {
         this.raw = raw;
-        //this.raw = creatWorld();
         dimension = new Dimension(raw.length, raw[0].length);
         grid = WorldBuilder.build(raw, dimension);        
     }
