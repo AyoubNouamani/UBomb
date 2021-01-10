@@ -46,18 +46,16 @@ public class Bomb extends GameObject {
             int x = 0;
             List<Monster> monsters = game.getWorld(level).getMonsterTab();
             for (Monster monster : monsters){
-                if (monster.getPosition().equals(pBomb)){
+                if (monster.getPosition().equals(pBomb))
                     monsters.remove(x);
-                }
             }
         }
 
         //Explosion bomb
-        for (Bomb bomb : game.getBombTab().get(game.getAcutualLevel()-1)){
+        for (Bomb bomb : game.getWorld(level).getListBomb()){
             if (bomb.getPosition().equals(pBomb) && getPosition()!= bomb.getPosition()){
-                if (bomb.time > 1){
+                if (bomb.time > 1)
                     bomb.time = 1;
-                }
             }         
         }
     }
@@ -65,7 +63,6 @@ public class Bomb extends GameObject {
     private void explosionDecor(Direction t, Decor explosion){
         //on regarde s'il y'a pas un objet a pas detruire
         Position p = getPosition();
-        explosionCharacter(p);
         String object2 = "X";
         for(int i=0; i < bombRange ; i++){
             Position x = t.nextPosition(p);
@@ -119,6 +116,8 @@ public class Bomb extends GameObject {
                 explosionDecor(x, explosion);
             }
         }else if (time == -1){
+            Position p = getPosition();
+            explosionCharacter(p);            
             for (Direction x : tab){
                 erasseExplosion(x);
             }

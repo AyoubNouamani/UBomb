@@ -26,9 +26,8 @@ public class Game {
     public int initPlayerLives;
     public int initPlayerKey;
     public int initNumberBomb;
-    public int initRangeBomb;
+    public int initRangeBomb = 1;
     private int actualLevel = 1;
-    public List<List<Bomb>> BombTab = new ArrayList<>();
 
     public Game(String worldPath){
         this.worldPath = worldPath;
@@ -57,14 +56,7 @@ public class Game {
         }catch(Exception e){
             System.err.println("Position not found : " + e.getLocalizedMessage());
         }
-
-        //Liste des bombes
-        for (int x = 0; x<initLevels; x++){
-            List<Bomb> bomb = new ArrayList<>();
-            BombTab.add(bomb);
-        }
-
-        
+                
         //Recherche de la position du joueur
         Position positionPlayer = null;
         try {
@@ -102,10 +94,6 @@ public class Game {
 
     public int getAcutualLevel(){
         return this.actualLevel;
-    }
-
-    public List<List<Bomb>> getBombTab(){
-        return this.BombTab;
     }
 
     public World getWorld() {

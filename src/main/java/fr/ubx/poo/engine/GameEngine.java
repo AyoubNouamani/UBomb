@@ -185,7 +185,7 @@ public final class GameEngine {
                 for (Bomb bomb : game.getWorld(i).getListBomb()){
                     bomb.Countdown();
                     if (bomb.time==-1)
-                        game.getBombTab().get(game.getAcutualLevel()-1).remove(x);
+                        game.getWorld().getListBomb().remove(x);
                     x++;
                 }  
             }
